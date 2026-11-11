@@ -1,0 +1,75 @@
+<!-- HOMEPAGE - Shows first, before any health page -->
+<section id="home">
+<div style="text-align:center;padding:20px">
+<h1 style="font-size:38px;margin:10px 0">🌌 BRAHMAND GANGA</h1>
+<p style="color:#5eead4;font-size:16px">Browsing Earth is not just viewing - it is medicine.</p>
+<p style="color:#94a3b8;max-width:600px;margin:10px auto">Astronauts face radiation, bone loss, stress and isolation. Current tools only show numbers. Brahmand Ganga connects <b style="color:white">what astronaut SEES</b> to <b style="color:white">how astronaut FEELS</b> - Earth, Home, Light, Routine, Brain and Body in one platform.</p>
+</div>
+
+<div class="card"><h2>What We Are Building</h2>
+<table>
+<tr><th>Problem</th><th>Our Solution</th></tr>
+<tr><td>☢️ Radiation + SAA Danger</td><td>Live DONKI + ISS tracking + Shield alert</td></tr>
+<tr><td>🦴 Bone Loss + Vitamin D Loss</td><td>Cascadian Light - Timed light by ISS time + Exercise routine</td></tr>
+<tr><td>😰 Stress + Homesickness</td><td>Earth Therapy - Real Home Street View + 5-min guided session</td></tr>
+<tr><td>🧠 Brain Health Risk</td><td>Brain MRI screening + Face Scan + PPG Heart Rate</td></tr>
+<tr><td>🌍 Disconnected Earth Data</td><td>Earth GPS - Satellite + Real Street View + NASA + ISRO + Weather</td></tr>
+<tr><td>🗓️ No Routine in Space</td><td>ISS Timetable - Light + Sleep + Work + Therapy</td></tr>
+</table>
+</div>
+
+<div class="card"><h2>Choose Your Solution - Start Here</h2>
+<p style="color:#94a3b8">Tap a solution. Health check starts only inside that solution.</p>
+<div class="grid">
+<div class="vital"><b>🩺</b><span>Health Check</span><button class="primary" onclick="goTo('health')">Check My Health</button></div>
+<div class="vital"><b>🧘</b><span>Earth Therapy</span><button class="primary" onclick="goTo('therapy')">Start Earth Therapy</button></div>
+<div class="vital"><b>🌍</b><span>Browse Earth</span><button class="primary" onclick="goTo('earth')">Browse Home & Earth</button></div>
+<div class="vital"><b>💡</b><span>Circadian Light</span><button class="primary" onclick="goTo('light')">Check My Light</button></div>
+<div class="vital"><b>🧠</b><span>Brain MRI</span><button class="primary" onclick="goTo('mri')">Upload Brain MRI</button></div>
+<div class="vital"><b>📸</b><span>Face Scan</span><button class="primary" onclick="goTo('face')">Scan My Face</button></div>
+</div>
+</div>
+
+<div class="card"><h2>Live From Space - Real APIs</h2>
+<p>ISS Live: <b id="homeISS">Loading...</b></p>
+<p>NASA Solar Storm: <b id="homeDONKI">Loading...</b></p>
+<p>Weather at Home: <b id="homeWeather">Loading...</b></p>
+<p>Earth Photo Today (NASA EPIC): <img id="homeEPIC" class="main" style="display:none"></p>
+</div>
+
+<div class="card" style="text-align:center">
+<p style="color:#94a3b8">Built for NASA Space Apps Challenge 2026 | Team Reborn Innovators | Haldwani - Patna, India</p>
+<button class="primary" onclick="goTo('health')" style="max-width:300px">🚀 Start Health Check →</button>
+</div>
+</section>
+
+<script>
+// Homepage - Calls YOUR backend, not NASA directly
+const BACKEND = "http://localhost:5000"; // Change to your Render URL after deploy: https://brahmand-ganga-backend.onrender.com
+function goTo(page){
+  let btns = document.querySelectorAll('.nav button');
+  let map = {health:0, face:1, light:2, routine:3, earth:4, therapy:5, space:6, mri:7, report:8};
+  if(btns[map[page]]) show(page, btns[map[page]]);
+  else show(page, btns[0]);
+  window.scrollTo(0,0);
+}
+async function loadHomepage(){
+  try{
+    let iss = await fetch(BACKEND + '/api/iss-now').then(r=>r.json());
+    document.getElementById('homeISS').innerText = 'Lat ' + iss.iss_position.latitude + ', Lon ' + iss.iss_position.longitude;
+  }catch(e){ document.getElementById('homeISS').innerText = 'Backend not running - start backend/server.js'; }
+  try{
+    let w = await fetch(BACKEND + '/api/weather?lat=29.22&lon=79.52').then(r=>r.json());
+    document.getElementById('homeWeather').innerText = w.current.temperature_2m + '°C, UV ' + w.current.uv_index + ' - Haldwani';
+  }catch(e){}
+  try{
+    let d = await fetch(BACKEND + '/api/nasa/donki').then(r=>r.json());
+    document.getElementById('homeDONKI').innerText = d.count ? d.count + ' solar events tracked' : 'No major storm';
+  }catch(e){}
+  try{
+    let e = await fetch(BACKEND + '/api/nasa/epic').then(r=>r.json());
+    if(e.imageUrl){ document.getElementById('homeEPIC').src = e.imageUrl; document.getElementById('homeEPIC').style.display='block'; }
+  }catch(e){}
+}
+loadHomepage();
+</script>
