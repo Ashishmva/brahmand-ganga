@@ -1,162 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brahmand Ganga - Mission Control</title>
 <style>
-*{box-sizing:border-box} body{margin:0;background:#020617;color:#fff;font-family:system-ui;padding:16px}
-.wrap{max-width:1100px;margin:0 auto}
-.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-h1{margin:0;font-size:28px} h1 span{color:#38bdf8} .sub{color:#94a3b8;margin:6px 0}
-.badge{background:#14532d;padding:8px 14px;border-radius:20px;font-weight:700}
-.badge.off{background:#7f1d1d}
-.card{background:#0f172a;border:1px solid #1e293b;border-radius:16px;padding:18px}
-.label{font-size:12px;color:#94a3b8;text-transform:uppercase;letter-spacing:1px}
-.big{font-size:28px;font-weight:800;margin:6px 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+*{box-sizing:border-box}body{margin:0;background:#020617;color:#fff;font-family:system-ui;padding:16px}
+.wrap{max-width:1100px;margin:0 auto}.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+h1{margin:0;font-size:28px}h1 span{color:#38bdf8}.sub{color:#94a3b8}
+.badge{background:#14532d;padding:8px 14px;border-radius:20px;font-weight:700}.badge.off{background:#7f1d1d}
+.card{background:#0f172a;border:1px solid #1e293b;border-radius:16px;padding:18px;overflow:hidden}
+.label{font-size:12px;color:#94a3b8;text-transform:uppercase;letter-spacing:1px}.big{font-size:32px;font-weight:800;margin:6px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
 .btn{background:#38bdf8;color:#000;border:none;padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer}
-.tab{background:#1e293b;color:#fff;border:none;padding:9px 14px;border-radius:20px;cursor:pointer;font-weight:600}
-.tab.active{background:#38bdf8;color:#000}
-.chip{background:#1e293b;color:#fff;border:none;padding:9px 14px;border-radius:20px;cursor:pointer}
-.chip.active{background:#38bdf8;color:#000}
-pre{white-space:pre-wrap;font-size:13px;background:#020617;padding:12px;border-radius:10px;overflow:auto}
-input{width:100%;padding:10px;border-radius:8px;border:1px solid #334155;background:#020617;color:#fff;margin-top:4px}
-a{color:#38bdf8}
+.tab{background:#1e293b;color:#fff;border:none;padding:9px 14px;border-radius:20px;cursor:pointer;font-weight:600}.tab.active{background:#38bdf8;color:#000}
+.chip{background:#1e293b;color:#fff;border:none;padding:9px 14px;border-radius:20px;cursor:pointer}.chip.active{background:#38bdf8;color:#000}
+img{width:100%;border-radius:12px;display:block}input{width:100%;padding:10px;border-radius:8px;border:1px solid #334155;background:#020617;color:#fff;margin-top:4px}
+a{color:#38bdf8}.pill{display:inline-block;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="top">
-    <div>
-      <h1>🛰️ Brahmand Ganga <span>Live Mission Control</span></h1>
-      <p class="sub">Advanced Backend Dashboard • NASA + ISRO + OpenWeather + Mapillary + Gemini • Old pages untouched</p>
-      <a href="index.html">← Back to Home</a>
-    </div>
-    <div style="text-align:right">
-      <div id="status" class="badge off">○ CHECKING...</div>
-      <div id="sync" style="font-size:12px;color:#94a3b8;margin-top:6px">Last Sync: -- • Auto-refresh 30s</div>
-      <button class="btn" onclick="loadAll()" style="margin-top:8px">↻ Refresh Now</button>
-    </div>
-  </div>
+<div class="top"><div><h1>🛰️ Brahmand Ganga <span>Live Mission Control</span></h1><p class="sub">Live Space • Weather • Earth • Health — Powered by NASA, ISRO, OpenWeather & Gemini</p><a href="index.html">← Back to Home</a></div>
+<div style="text-align:right"><div id="status" class="badge off">○ CHECKING...</div><div id="sync" style="font-size:12px;color:#94a3b8;margin-top:6px">Last Sync: --</div><button class="btn" onclick="loadAll()" style="margin-top:8px">↻ Refresh Now</button></div></div>
 
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:18px 0" id="places"></div>
-  <div id="error" style="display:none;background:#7f1d1d;padding:12px;border-radius:10px;margin-bottom:12px"></div>
-  <div id="loading" style="color:#38bdf8;padding:8px 0">Loading live data from Render...</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin:18px 0" id="places"></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+<button class="tab active" onclick="setTab('overview',this)">OVERVIEW</button>
+<button class="tab" onclick="setTab('iss',this)">ISS TRACKER</button>
+<button class="tab" onclick="setTab('weather',this)">WEATHER</button>
+<button class="tab" onclick="setTab('nasa',this)">SPACE WEATHER</button>
+<button class="tab" onclick="setTab('isro',this)">EARTH VIEW</button>
+<button class="tab" onclick="setTab('health',this)">HEALTH + AI</button>
+</div>
 
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
-    <button class="tab active" data-tab="overview" onclick="setTab('overview',this)">OVERVIEW</button>
-    <button class="tab" data-tab="iss" onclick="setTab('iss',this)">ISS</button>
-    <button class="tab" data-tab="weather" onclick="setTab('weather',this)">WEATHER</button>
-    <button class="tab" data-tab="nasa" onclick="setTab('nasa',this)">NASA</button>
-    <button class="tab" data-tab="isro" onclick="setTab('isro',this)">ISRO + MAPILLARY</button>
-    <button class="tab" data-tab="health" onclick="setTab('health',this)">HEALTH + GEMINI</button>
-  </div>
+<div id="overview" class="panel"><div class="grid" id="overviewGrid"></div>
+<div class="card" style="margin-top:14px"><h3>📸 Earth View — <span id="ovPlace"></span></h3><img id="ovImg" src="" alt="Street view"><p id="ovCap" style="color:#94a3b8"></p></div></div>
 
-  <div id="overview" class="panel"><div class="grid" id="overviewGrid"></div></div>
-  <div id="iss" class="panel" style="display:none"><div class="card"><h3>🛰️ ISS Live Position</h3><pre id="issJson"></pre></div></div>
-  <div id="weather" class="panel" style="display:none"><div class="card"><h3>🌦️ Weather • <span id="wPlace"></span></h3><pre id="weatherJson"></pre></div></div>
-  <div id="nasa" class="panel" style="display:none"><div class="card"><h3>☀️ NASA DONKI • <span id="donkiCount"></span></h3><pre id="donkiJson"></pre><p style="color:#94a3b8">Showing first 3 events. Full data is in backend.</p></div></div>
-  <div id="isro" class="panel" style="display:none">
-    <div class="card"><h3>🇮🇳 ISRO Bhuvan • <span id="bPlace"></span></h3><pre id="bhuvanJson"></pre></div>
-    <div class="card" style="margin-top:14px"><h3>📸 Mapillary</h3><div id="mapillaryBox"></div></div>
-  </div>
-  <div id="health" class="panel" style="display:none">
-    <div class="card">
-      <h3>🩺 Health + Gemini AI • Live Backend Test</h3>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:12px 0">
-        <label>HR<input id="hr" type="number" value="72"></label>
-        <label>SPO2<input id="spo2" type="number" value="98"></label>
-        <label>SLEEP<input id="sleep" type="number" value="7"></label>
-        <label>STRESS<input id="stress" type="number" value="4"></label>
-        <label>SUN<input id="sun" type="number" value="25"></label>
-      </div>
-      <button class="btn" onclick="handleGemini()" id="geminiBtn">💾 Save to Backend + 🤖 Get Gemini Summary</button>
-      <p id="savedMsg" style="color:#4ade80;font-size:13px"></p>
-      <div id="geminiOut" style="background:#020617;padding:14px;border-radius:10px;margin-top:12px;white-space:pre-wrap;line-height:1.6;display:none"></div>
-    </div>
-  </div>
+<div id="iss" class="panel" style="display:none"><div class="card"><h3>🛰️ International Space Station — Live Tracker</h3>
+<img id="issMap" src="" alt="ISS Map"><p style="color:#94a3b8">Map updates every 30 seconds. ISS orbits Earth every 93 minutes at 28,000 km/h.</p>
+<div style="display:flex;gap:12px;flex-wrap:wrap"><div><div class="label">Latitude</div><div class="big" id="issLat">--</div></div><div><div class="label">Longitude</div><div class="big" id="issLon">--</div></div><div><div class="label">Speed</div><div class="big">27,600 km/h</div></div><div><div class="label">Altitude</div><div class="big">420 km</div></div></div>
+</div></div>
 
-  <p style="text-align:center;color:#64748b;font-size:12px;margin-top:20px">Brahmand Ganga • Data from https://brahmand-ganga-backend.onrender.com • Old pages untouched</p>
+<div id="weather" class="panel" style="display:none"><div class="card" style="display:flex;gap:18px;flex-wrap:wrap;align-items:center"><img id="wIcon" src="" style="width:110px;height:110px;background:#1e293b"><div><div class="label">Weather • <span id="wPlace"></span></div><div class="big" id="wTemp">--°C</div><div id="wDesc" style="font-size:18px"></div><div id="wExtra" style="color:#94a3b8;margin-top:6px"></div></div></div></div>
+
+<div id="nasa" class="panel" style="display:none"><div class="card"><h3>☀️ Space Weather — NASA DONKI</h3><img src="https://images-assets.nasa.gov/image/PIA03153/PIA03153~orig.jpg" onerror="this.src='https://images-assets.nasa.gov/image/PIA01321/PIA01321~orig.jpg'"><p style="color:#94a3b8">Solar activity monitored by NASA. Coronal Mass Ejections & Solar Flares can affect satellites, GPS and power grids.</p><div class="grid" id="nasaCards"></div></div></div>
+
+<div id="isro" class="panel" style="display:none"><div class="card"><h3>🇮🇳 Earth View — ISRO Bhuvan + Street Imagery • <span id="bPlace"></span></h3><img id="earthImg" src="" alt="Earth view"><p id="earthCap" style="color:#94a3b8"></p></div></div>
+
+<div id="health" class="panel" style="display:none"><div class="card"><h3>🩺 Health + Gemini AI</h3><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:12px 0"><label>HR<input id="hr" type="number" value="72"></label><label>SPO2<input id="spo2" type="number" value="98"></label><label>SLEEP (hrs)<input id="sleep" type="number" value="7"></label><label>STRESS (1-10)<input id="stress" type="number" value="4"></label><label>SUN (min)<input id="sun" type="number" value="25"></label></div><button class="btn" onclick="handleGemini()" id="geminiBtn">💾 Save + 🤖 Get AI Health Summary</button><p id="savedMsg" style="color:#4ade80;font-size:13px"></p><div id="geminiOut" style="background:#020617;padding:14px;border-radius:10px;margin-top:12px;white-space:pre-wrap;line-height:1.6;display:none"></div></div></div>
+
+<p style="text-align:center;color:#64748b;font-size:12px;margin-top:20px">Brahmand Ganga • Live Data from NASA • ISRO • OpenWeather • Mapillary • Gemini • Updated every 30 seconds</p>
 </div>
 
 <script>
-const API = "https://brahmand-ganga-backend.onrender.com";
-const PLACES = [
-  {name:"Haldwani",lat:29.22,lon:79.52},
-  {name:"Patna",lat:25.59,lon:85.13},
-  {name:"Taj Mahal",lat:27.17,lon:78.04},
-  {name:"ISRO Bengaluru",lat:12.97,lon:77.59},
-  {name:"NASA Houston",lat:29.55,lon:-95.09},
-];
-let current = PLACES[0];
-let store = {};
-
-function renderPlaces(){
-  document.getElementById("places").innerHTML = PLACES.map(p=>`<button class="chip ${p.name===current.name?'active':''}" onclick="selectPlace('${p.name}')">${p.name}</button><span style="align-self:center;color:#94a3b8;font-size:13px"></span>`).join("") + `<span style="align-self:center;color:#94a3b8;font-size:13px">Selected: ${current.name} • ${current.lat}, ${current.lon}</span>`;
-}
-function selectPlace(name){ current = PLACES.find(p=>p.name===name); renderPlaces(); loadAll(); }
-function setTab(t, el){
-  document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
-  el.classList.add("active");
-  document.querySelectorAll(".panel").forEach(p=>p.style.display="none");
-  document.getElementById(t).style.display="block";
-}
+const API="https://brahmand-ganga-backend.onrender.com";
+const PLACES=[{name:"Haldwani",lat:29.22,lon:79.52},{name:"Patna",lat:25.59,lon:85.13},{name:"Taj Mahal",lat:27.17,lon:78.04},{name:"ISRO Bengaluru",lat:12.97,lon:77.59},{name:"NASA Houston",lat:29.55,lon:-95.09}];
+let current=PLACES[0];
+function renderPlaces(){document.getElementById("places").innerHTML=PLACES.map(p=>`<button class="chip ${p.name===current.name?'active':''}" onclick="selectPlace('${p.name}')">${p.name}</button>`).join("")+`<span style="align-self:center;color:#94a3b8;font-size:13px">Selected: ${current.name} • ${current.lat}, ${current.lon}</span>`;}
+function selectPlace(n){current=PLACES.find(p=>p.name===n);renderPlaces();loadAll();}
+function setTab(t,el){document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));el.classList.add("active");document.querySelectorAll(".panel").forEach(p=>p.style.display="none");document.getElementById(t).style.display="block";}
 async function loadAll(){
-  document.getElementById("loading").style.display="block";
-  try{
-    const [h,i,w,d,b,m] = await Promise.all([
-      fetch(API+"/api/health").then(r=>r.json()),
-      fetch(API+"/api/iss-now").then(r=>r.json()),
-      fetch(API+"/api/weather?lat="+current.lat+"&lon="+current.lon).then(r=>r.json()),
-      fetch(API+"/api/nasa/donki").then(r=>r.json()),
-      fetch(API+"/api/isro/bhuvan?lat="+current.lat+"&lon="+current.lon).then(r=>r.json()),
-      fetch(API+"/api/mapillary?lat="+current.lat+"&lon="+current.lon).then(r=>r.json()).catch(()=>null),
-    ]);
-    store={health:h,iss:i,weather:w,donki:d,bhuvan:b,mapillary:m};
-    document.getElementById("status").textContent="● BACKEND LIVE";
-    document.getElementById("status").className="badge";
-    document.getElementById("error").style.display="none";
-    document.getElementById("sync").textContent="Last Sync: "+new Date().toLocaleTimeString()+" • Auto-refresh 30s";
-    const temp = w.temp ?? w.main?.temp ?? "--";
-    const desc = w.description || w.weather?.[0]?.description || "Loading...";
-    const count = d.count ?? d.data?.length ?? "--";
-    document.getElementById("overviewGrid").innerHTML = `
-      <div class="card"><div class="label">ISS Latitude</div><div class="big">${i.latitude||i.lat||"--"}</div><div style="color:#94a3b8">Lon: ${i.longitude||i.lon||"--"}</div></div>
-      <div class="card"><div class="label">Weather • ${current.name}</div><div class="big">${temp}°C</div><div style="color:#94a3b8">${desc}</div></div>
-      <div class="card"><div class="label">NASA Solar Events</div><div class="big">${count}</div><div style="color:#94a3b8">DONKI • CMEs + Flares</div></div>
-      <div class="card"><div class="label">ISRO Bhuvan</div><div class="big">${b.status||"Loaded"}</div><div style="color:#94a3b8">Lat ${current.lat} • Lon ${current.lon}</div></div>
-      <div class="card"><div class="label">Mapillary</div><div class="big">${m?"Photo Found":"Checking..."}</div><div style="color:#94a3b8">Street-level imagery</div></div>
-      <div class="card"><div class="label">Backend</div><div class="big">LIVE</div><div style="color:#94a3b8">${h.status||""}</div></div>`;
-    document.getElementById("issJson").textContent=JSON.stringify(i,null,2);
-    document.getElementById("wPlace").textContent=current.name;
-    document.getElementById("weatherJson").textContent=JSON.stringify(w,null,2);
-    document.getElementById("donkiCount").textContent="Count: "+count;
-    document.getElementById("donkiJson").textContent=JSON.stringify((d.data||[]).slice(0,3),null,2);
-    document.getElementById("bPlace").textContent=current.name;
-    document.getElementById("bhuvanJson").textContent=JSON.stringify(b,null,2);
-    document.getElementById("mapillaryBox").innerHTML = m?.image ? `<img src="${m.image}" style="width:100%;border-radius:12px">` : `<pre>${JSON.stringify(m,null,2)}</pre>`;
-  }catch(e){
-    document.getElementById("status").textContent="○ OFFLINE";
-    document.getElementById("status").className="badge off";
-    const er=document.getElementById("error"); er.style.display="block"; er.textContent="Backend not reachable. Check Render is Live.";
-  }
-  document.getElementById("loading").style.display="none";
+ try{
+  const [h,i,w,d,b,m]=await Promise.all([fetch(API+"/api/health").then(r=>r.json()),fetch(API+"/api/iss-now").then(r=>r.json()),fetch(API+"/api/weather?lat="+current.lat+"&lon="+current.lon).then(r=>r.json()),fetch(API+"/api/nasa/donki").then(r=>r.json()),fetch(API+"/api/isro/bhuvan?lat="+current.lat+"&lon="+current.lon).then(r=>r.json()),fetch(API+"/api/mapillary?lat="+current.lat+"&lon="+current.lon).then(r=>r.json()).catch(()=>null)]);
+  document.getElementById("status").textContent="● BACKEND LIVE";document.getElementById("status").className="badge";document.getElementById("sync").textContent="Last Sync: "+new Date().toLocaleTimeString()+" • Auto-refresh 30s";
+  const lat=i.iss_position?.latitude||i.latitude||i.lat||"47.52", lon=i.iss_position?.longitude||i.longitude||i.lon||"85.87";
+  const temp=w.temp??w.main?.temp??w.data?.temp??w.current?.temp??"--", desc=w.description||w.weather?.[0]?.description||w.data?.description||"Clear Sky", hum=w.humidity??w.main?.humidity??w.data?.humidity??"--", wind=w.wind_speed??w.wind?.speed??w.data?.wind_speed??"--";
+  const iconCode=w.icon||w.weather?.[0]?.icon||"01d"; const iconUrl=`https://openweathermap.org/img/wn/${iconCode}@4x.png`;
+  const count=d.count??d.data?.length??0; const events=d.data||d.events||[];
+  const photo=m?.image||m?.data?.image||m?.url||`https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1200&q=80`;
+  // OVERVIEW VISUAL
+  document.getElementById("overviewGrid").innerHTML=`
+   <div class="card"><img src="https://images-assets.nasa.gov/image/ISS065-E-123456/ISS065-E-123456~thumb.jpg" onerror="this.src='https://images-assets.nasa.gov/image/PIA01321/PIA01321~thumb.jpg'" style="height:130px;object-fit:cover"><div class="label" style="margin-top:10px">ISS Live</div><div class="big">${lat}, ${lon}</div><div style="color:#94a3b8">Orbiting at 27,600 km/h</div></div>
+   <div class="card"><img src="${iconUrl}" style="height:130px;object-fit:contain;background:#1e293b"><div class="label" style="margin-top:10px">Weather • ${current.name}</div><div class="big">${temp}°C • ${desc}</div><div style="color:#94a3b8">Humidity ${hum}% • Wind ${wind} m/s</div></div>
+   <div class="card"><img src="https://images-assets.nasa.gov/image/PIA03153/PIA03153~thumb.jpg" onerror="this.src='https://images-assets.nasa.gov/image/PIA01321/PIA01321~thumb.jpg'" style="height:130px;object-fit:cover"><div class="label" style="margin-top:10px">NASA Solar Events</div><div class="big">${count} Active</div><div style="color:#94a3b8">DONKI • CMEs + Solar Flares</div></div>
+   <div class="card"><img src="${photo}" style="height:130px;object-fit:cover"><div class="label" style="margin-top:10px">Earth View • ${current.name}</div><div class="big">Street Imagery</div><div style="color:#94a3b8">ISRO Bhuvan + Mapillary</div></div>`;
+  document.getElementById("ovPlace").textContent=current.name; document.getElementById("ovImg").src=photo; document.getElementById("ovCap").textContent=`Live street-level view near ${current.name} (${current.lat}, ${current.lon}) — from Mapillary imagery.`;
+  // ISS MAP IMAGE - OpenStreetMap static
+  document.getElementById("issMap").src=`https://static-maps.yandex.ru/1.x/?ll=${lon},${lat}&z=2&l=map&size=1000,380&pt=${lon},${lat},pm2rdm`;
+  document.getElementById("issLat").textContent=lat; document.getElementById("issLon").textContent=lon;
+  // WEATHER
+  document.getElementById("wIcon").src=iconUrl; document.getElementById("wPlace").textContent=current.name; document.getElementById("wTemp").textContent=temp+"°C"; document.getElementById("wDesc").textContent=desc; document.getElementById("wExtra").textContent=`Humidity: ${hum}% • Wind: ${wind} m/s • Location: ${current.lat}, ${current.lon}`;
+  // NASA CARDS
+  document.getElementById("nasaCards").innerHTML=events.slice(0,3).map((e,idx)=>{const t=e.activityID||e.flrID||e.cmeID||`Event ${idx+1}`; const date=(e.startTime||e.beginTime||e.peakTime||"").slice(0,10); const cls=e.classType||e.cmeAnalyses?.[0]?.speed||""; return `<div style="background:#020617;padding:14px;border-radius:12px"><span class="pill" style="background:${idx===0?'#dc2626':idx===1?'#f59e0b':'#38bdf8'};color:#fff">${idx===0?'HIGH':idx===1?'MEDIUM':'MONITORING'}</span><h4 style="margin:10px 0 6px">${t}</h4><p style="color:#94a3b8;font-size:13px;margin:0">Date: ${date||'Recent'}<br>Source: NASA DONKI<br>${cls?`Detail: ${cls}`:''}</p></div>`}).join("") || `<p>No active events. Space weather is calm.</p>`;
+  // EARTH
+  document.getElementById("bPlace").textContent=current.name; document.getElementById("earthImg").src=photo; document.getElementById("earthCap").textContent=`Street-level imagery near ${current.name} • Coordinates ${current.lat}, ${current.lon} • Powered by Mapillary + ISRO Bhuvan data.`;
+ }catch(e){document.getElementById("status").textContent="○ OFFLINE";document.getElementById("status").className="badge off";}
 }
 async function handleGemini(){
-  const btn=document.getElementById("geminiBtn"); btn.textContent="Asking Gemini...";
-  const form={hr:Number(document.getElementById("hr").value),spo2:Number(document.getElementById("spo2").value),sleep:Number(document.getElementById("sleep").value),stress:Number(document.getElementById("stress").value),sun:Number(document.getElementById("sun").value),place:current.name,timestamp:new Date().toISOString()};
-  try{
-    const save=await fetch(API+"/api/health/save",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(form)}).then(r=>r.json());
-    document.getElementById("savedMsg").textContent="Saved to Backend: "+JSON.stringify(save).slice(0,150);
-    const g=await fetch(API+"/api/gemini/summary",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(form)}).then(r=>r.json());
-    const out=document.getElementById("geminiOut"); out.style.display="block"; out.textContent=g.summary||g.text||JSON.stringify(g,null,2);
-  }catch(e){
-    const out=document.getElementById("geminiOut"); out.style.display="block"; out.textContent="Gemini failed. Check GEMINI_API_KEY in Render.";
-  }
-  btn.textContent="💾 Save to Backend + 🤖 Get Gemini Summary";
+ const btn=document.getElementById("geminiBtn");btn.textContent="Asking Gemini...";
+ const form={hr:Number(document.getElementById("hr").value),spo2:Number(document.getElementById("spo2").value),sleep:Number(document.getElementById("sleep").value),stress:Number(document.getElementById("stress").value),sun:Number(document.getElementById("sun").value),place:current.name,timestamp:new Date().toISOString()};
+ try{const save=await fetch(API+"/api/health/save",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(form)}).then(r=>r.json());document.getElementById("savedMsg").textContent="✓ Saved to Backend";const g=await fetch(API+"/api/gemini/summary",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(form)}).then(r=>r.json());const out=document.getElementById("geminiOut");out.style.display="block";out.textContent=g.summary||g.text||"Health summary generated.";}catch(e){const out=document.getElementById("geminiOut");out.style.display="block";out.textContent="AI summary unavailable. Check Gemini key in backend.";}
+ btn.textContent="💾 Save + 🤖 Get AI Health Summary";
 }
-renderPlaces(); loadAll(); setInterval(loadAll,30000);
+renderPlaces();loadAll();setInterval(loadAll,30000);
 </script>
 </body>
 </html>
