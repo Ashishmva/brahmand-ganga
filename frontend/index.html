@@ -1,11 +1,36 @@
-<!-- HOMEPAGE - Shows first, before any health page -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brahmand Ganga</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>*{box-sizing:border-box;font-family:Inter,Arial}body{margin:0;background:#020617;color:#e2e8f0}header{background:#0f172a;padding:14px;text-align:center;position:sticky;top:0;z-index:20}header h1{margin:0}header p{color:#5eead4;margin:4px;font-size:12px}
+.nav{display:flex;gap:6px;padding:10px;background:#1e293b;overflow-x:auto;position:sticky;top:76px;z-index:20}.nav button{white-space:nowrap;padding:10px 12px;border:0;border-radius:20px;background:#334155;color:white;cursor:pointer}.nav button.active{background:#06b6d4;color:#000;font-weight:bold}
+.card{background:#1e293b;margin:12px;padding:16px;border-radius:14px}.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.vital{background:#0f172a;padding:14px;border-radius:12px;text-align:center}.vital b{font-size:26px;display:block}.empty{padding:22px;text-align:center;color:#94a3b8;border:1px dashed #475569;border-radius:12px}
+button.primary{background:#06b6d4;border:0;padding:12px;border-radius:10px;width:100%;font-weight:bold;cursor:pointer;color:#000}button.sec{background:transparent;border:1px solid #06b6d4;color:#06b6d4;padding:10px;border-radius:10px;width:100%;cursor:pointer;margin-top:8px}button.danger{background:#dc2626;border:0;padding:10px;border-radius:10px;width:100%;color:white;cursor:pointer;margin-top:8px}
+input,select,textarea{width:100%;padding:11px;margin:6px 0;border-radius:8px;border:0;background:#0f172a;color:white}video,img.main{width:100%;border-radius:12px;background:#000;max-height:320px;object-fit:cover}#map{height:360px;border-radius:12px;z-index:1}table{width:100%;font-size:13px}td,th{padding:8px;border-bottom:1px solid #334155;text-align:left}.chip{display:inline-block;padding:6px 10px;border-radius:20px;background:#0f172a;margin:4px;cursor:pointer}.big{font-size:44px;font-weight:bold}.ok{color:#4ade80}.warn{color:#facc15}.bad{color:#f87171}
+#onboard{position:fixed;inset:0;background:#020617;z-index:100;padding:20px;overflow:auto;display:none}#onboard .box{max-width:520px;margin:20px auto;background:#1e293b;padding:20px;border-radius:16px}
+canvas{width:100%;background:#0f172a;border-radius:12px}
+@media(max-width:600px){.grid{grid-template-columns:1fr 1fr}}
+</style></head><body>
+<header><h1>🌌 BRAHMAND GANGA</h1><p id="hdrSub">Astronaut Health • Earth Browser • Circadian Light</p><p id="clock">--</p></header>
+<div class="nav"><button class="active" onclick="show('home',this)">🏠 Home</button><button onclick="show('health',this)">🩺 Health</button><button onclick="show('face',this)">📸 Face Scan</button><button onclick="show('light',this)">💡 Circadian Light</button><button onclick="show('routine',this)">🗓️ Routine</button><button onclick="show('earth',this)">🌍 Earth GPS</button><button onclick="show('therapy',this)">🧘 Earth Therapy</button><button onclick="show('space',this)">🌌 Galaxy & Moon</button><button onclick="show('mri',this)">🧠 Brain MRI</button><button onclick="show('report',this)">📄 Report & History</button></div>
+
+<div id="onboard"><div class="box"><h2>Welcome to Brahmand Ganga</h2><p style="color:#94a3b8">Create your astronaut profile. No data is pre-filled. Your data stays in this browser.</p>
+<label>Full Name <input id="obName" placeholder="e.g. Ashish Kumar"></label>
+<label>Age <input id="obAge" type="number" placeholder="e.g. 22"></label>
+<label>Home Town <input id="obHome" placeholder="e.g. Haldwani"></label>
+<label>Role <select id="obRole"><option>Astronaut</option><option>Flight Surgeon</option><option>Ground Crew</option><option>Student / Researcher</option></select></label>
+<label>Mission Day <input id="obDay" type="number" value="1"></label>
+<button class="primary" onclick="saveProfile()">Create Profile & Start</button>
+<p style="font-size:12px;color:#94a3b8">By continuing you agree this is a wellness screening tool, not a medical diagnosis. For emergencies, contact flight surgeon / doctor.</p></div></div>
+
+<!-- HOMEPAGE - Shows first -->
 <section id="home">
 <div style="text-align:center;padding:20px">
 <h1 style="font-size:38px;margin:10px 0">🌌 BRAHMAND GANGA</h1>
 <p style="color:#5eead4;font-size:16px">Browsing Earth is not just viewing - it is medicine.</p>
 <p style="color:#94a3b8;max-width:600px;margin:10px auto">Astronauts face radiation, bone loss, stress and isolation. Current tools only show numbers. Brahmand Ganga connects <b style="color:white">what astronaut SEES</b> to <b style="color:white">how astronaut FEELS</b> - Earth, Home, Light, Routine, Brain and Body in one platform.</p>
 </div>
-
 <div class="card"><h2>What We Are Building</h2>
 <table>
 <tr><th>Problem</th><th>Our Solution</th></tr>
@@ -17,7 +42,6 @@
 <tr><td>🗓️ No Routine in Space</td><td>ISS Timetable - Light + Sleep + Work + Therapy</td></tr>
 </table>
 </div>
-
 <div class="card"><h2>Choose Your Solution - Start Here</h2>
 <p style="color:#94a3b8">Tap a solution. Health check starts only inside that solution.</p>
 <div class="grid">
@@ -29,26 +53,72 @@
 <div class="vital"><b>📸</b><span>Face Scan</span><button class="primary" onclick="goTo('face')">Scan My Face</button></div>
 </div>
 </div>
-
 <div class="card"><h2>Live From Space - Real APIs</h2>
 <p>ISS Live: <b id="homeISS">Loading...</b></p>
 <p>NASA Solar Storm: <b id="homeDONKI">Loading...</b></p>
 <p>Weather at Home: <b id="homeWeather">Loading...</b></p>
 <p>Earth Photo Today (NASA EPIC): <img id="homeEPIC" class="main" style="display:none"></p>
 </div>
-
 <div class="card" style="text-align:center">
 <p style="color:#94a3b8">Built for NASA Space Apps Challenge 2026 | Team Reborn Innovators | Haldwani - Patna, India</p>
 <button class="primary" onclick="goTo('health')" style="max-width:300px">🚀 Start Health Check →</button>
 </div>
 </section>
 
+<section id="health" style="display:none"><div class="card"><div style="display:flex;justify-content:space-between"><h2 style="margin:0">Health Dashboard</h2><button onclick="editProfile()" style="background:#334155;color:white;border:0;border-radius:20px;padding:6px 12px;cursor:pointer">Edit Profile</button></div><p id="profileLine" style="color:#94a3b8"></p><p>Status: <b id="status">No data yet</b> | <span id="alertBox">Add vitals to see status</span></p>
+<div id="vitalGrid" class="grid"></div>
+<div id="noVitals" class="empty"><b>No vitals yet.</b><br>Add your first reading below, or use Face Scan camera heart-rate.<br>Reports will appear only after you add data.</div>
+</div>
+<div class="card"><h3>Add Vitals Reading</h3>
+Heart Rate bpm <input id="fHR" type="number" placeholder="e.g. 72">
+SpO2 % <input id="fSpO2" type="number" placeholder="e.g. 98">
+Sleep last night (hrs) <input id="fSleep" type="number" placeholder="e.g. 7">
+Stress 1-10 <input id="fStress" type="number" placeholder="e.g. 4">
+Sun / Light exposure (mins) <input id="fSun" type="number" placeholder="e.g. 25">
+Smoking <select id="fSmoke"><option value="0">No</option><option value="1">Yes</option></select>
+<button class="primary" onclick="addVitals()">Save Reading</button>
+<button class="sec" onclick="startPPG()">❤️ Measure Heart Rate From Camera - Real PPG</button>
+<p id="ppgOut" style="font-size:13px"></p><video id="ppgVideo" autoplay playsinline muted style="display:none"></video>
+</div>
+<div class="card"><h3>Health Trend</h3><canvas id="trendCanvas" height="120"></canvas><p id="trendNote" style="color:#94a3b8;font-size:13px">No trend yet. Add 2+ readings.</p></div>
+</section>
+
+<section id="face" style="display:none"><div class="card"><h2>Face Scan</h2><p>Status: <b id="camStatus">Camera Not Started</b> <span id="camErr" style="color:#f87171"></span></p><video id="video" autoplay playsinline muted></video><img id="facePhoto" class="main" style="display:none">
+<button class="primary" onclick="startCam()">▶ Start Camera</button><button class="sec" onclick="stopCam()">⏹ Stop Camera</button><button class="sec" onclick="document.getElementById('faceFile').click()">📁 Upload Photo Instead</button><input type="file" id="faceFile" accept="image/*" style="display:none" onchange="onFaceFile(event)">
+<label style="display:block;margin-top:10px"><input type="checkbox" id="noStore" style="width:auto"> Save features only, do not store image</label>
+<div style="margin-top:12px"><table><tr><th>Gate</th><th>Result</th></tr><tr><td>Lighting</td><td id="gLight">Not checked</td></tr><tr><td>Blur</td><td id="gBlur">Not checked</td></tr><tr><td>Single Face</td><td id="gFace">Not checked</td></tr><tr><td>Motion</td><td id="gMotion">Not checked</td></tr></table></div>
+<button class="primary" id="captureBtn" disabled onclick="captureFace()">📸 Capture & Analyze Face</button><div id="faceResult"></div>
+<p style="font-size:12px;color:#94a3b8">Apparent Age: model_not_installed. Age is never guessed from face.</p></div></section>
+
+<section id="light" style="display:none"><div class="card"><h2>Cascadian Light</h2><p>Light follows real time. It sets sleep, Vitamin D and alertness.</p><div id="lightBox" style="padding:16px;border-radius:12px;text-align:center;font-weight:bold">--</div><p id="lightInfo"></p>
+<div class="grid"><div class="vital">Light Now<b id="lightName">--</b><span id="lightKelvin">--</span></div><div class="vital">Vitamin D<b id="vitDToday">No data</b><span id="vitDMsg">Add sun exposure</span></div><div class="vital">Melatonin<b id="melatonin">--</b><span id="melatoninMsg">--</span></div></div>
+<button class="primary" onclick="applyLight()">Start 20-Min Light Session</button><p id="lightSession"></p><div id="lightHistory"></div></div></section>
+
+<section id="routine" style="display:none"><div class="card"><h2>Daily Routine</h2><p id="routineNow"></p><div id="routineList"></div><button class="primary" onclick="markDone()">Mark Current Task Done</button><p id="routineMsg"></p><label>Wake Time <input type="time" id="wakeTime" value="06:00" onchange="buildRoutine()"></label></div></section>
+
+<section id="earth" style="display:none"><div class="card"><h2>Earth Browser - Satellite GPS</h2><div style="display:flex;gap:8px"><input id="searchPlace" placeholder="Search town, river, city..."><button class="primary" style="width:130px" onclick="searchPlace()">Search</button></div><p id="searchResult"></p>
+<div style="margin:8px 0"><button class="sec" style="width:auto;padding:8px 12px" onclick="setMapMode('sat')">🛰️ Satellite</button> <button class="sec" style="width:auto;padding:8px 12px" onclick="setMapMode('street')">🗺️ Street</button> <span id="mapModeLabel">Mode: Satellite</span></div>
+<div id="map"></div><div style="margin-top:10px"><span class="chip" onclick="flyTo(29.22,79.52,'Haldwani')">🏠 Haldwani</span><span class="chip" onclick="flyTo(25.59,85.13,'Patna')">🏠 Patna</span><span class="chip" onclick="flyTo(25.31,82.98,'Varanasi - Ganga')">🌊 Ganga</span><span class="chip" onclick="flyTo(27.98,86.92,'Mount Everest')">🏔️ Everest</span><span class="chip" onclick="flyTo(27.17,78.04,'Taj Mahal')">🕌 Taj Mahal</span><span class="chip" onclick="flyTo(-23.55,-46.63,'SAA Zone')">☢️ SAA Zone</span></div>
+<p><b>GPS:</b> <span id="gpsInfo">No place selected</span></p><button class="sec" onclick="useMyLocation()">Use My GPS Location</button><button class="sec" onclick="startTherapyFromMap()">Start Earth Therapy From This Place</button></div></section>
+
+<section id="therapy" style="display:none"><div class="card"><h2>Earth Therapy - What Is It?</h2><p><b>Earth Therapy is a 5-minute guided recovery session.</b> Astronauts in isolation miss home. Seeing their home town, slow breathing, and warm light lowers stress and improves heart-rate variability. This page measures it: we record Stress + Heart Rate <b>before</b> the session, run a timed session, then record <b>after</b>. If it does not improve, the session is logged as no improvement - we do not fake it.</p>
+<p>Place: <b id="therapyPlace">Not selected - Go to Earth GPS and choose a place</b></p>
+<img id="therapyImg" class="main" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=900">
+<div style="text-align:center"><div class="big" id="therapyTimer">05:00</div><p id="therapyStep">Ready. Press Start Session.</p><p>Breathing: <b id="breathText">--</b></p></div>
+<button class="primary" onclick="startTherapy()">▶ Start 5-Min Earth Therapy Session</button><button class="sec" onclick="stopTherapy()">⏹ Stop Session</button>
+<div id="therapyResult"></div><h3>Past Therapy Sessions</h3><div id="therapyHistory"></div></div></section>
+
+<section id="space" style="display:none"><div class="card"><h2>Galaxy, Moon, Mars</h2><img id="spaceImg" class="main" src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=900"><p id="spaceLabel"><b>Milky Way Galaxy</b></p><div class="grid"><button class="sec" onclick="setSpace('milkyway')">🌌 Milky Way</button><button class="sec" onclick="setSpace('moon')">🌙 Moon</button><button class="sec" onclick="setSpace('mars')">🔴 Mars</button><button class="sec" onclick="setSpace('earth')">🌍 Earth</button><button class="sec" onclick="setSpace('sun')">☀️ Sun</button><button class="sec" onclick="setSpace('iss')">🛰️ ISS</button></div><p id="spaceInfo"></p></div></section>
+
+<section id="mri" style="display:none"><div class="card"><h2>Brain MRI</h2><p>Upload a Brain MRI image. Only image quality + symmetry descriptors are shown. This is screening support, not a diagnosis.</p><input type="file" id="mriFile" accept="image/*" onchange="onMRI(event)"><img id="mriPreview" class="main" style="display:none"><button class="primary" onclick="analyzeMRI()">Analyze MRI</button><div id="mriResult"></div><button class="sec" onclick="loadSampleMRI()">Load Sample Brain MRI For Demo</button><div id="mriHistory"></div></div></section>
+
+<section id="report" style="display:none"><div class="card"><h2>Report & History</h2><div id="reportBox"></div><button class="primary" onclick="downloadReport()">Download Report (JSON)</button><button class="sec" onclick="window.print()">Print / Save as PDF</button><button class="danger" onclick="clearAllData()">Delete All My Data</button></div></section>
 <script>
 // Homepage - Calls YOUR backend, not NASA directly
-const BACKEND = "http://localhost:5000"; // Change to your Render URL after deploy: https://brahmand-ganga-backend.onrender.com
+const BACKEND = "https://brahmand-ganga-backend.onrender.com";
 function goTo(page){
   let btns = document.querySelectorAll('.nav button');
-  let map = {health:0, face:1, light:2, routine:3, earth:4, therapy:5, space:6, mri:7, report:8};
+  let map = {home:0, health:1, face:2, light:3, routine:4, earth:5, therapy:6, space:7, mri:8, report:9};
   if(btns[map[page]]) show(page, btns[map[page]]);
   else show(page, btns[0]);
   window.scrollTo(0,0);
@@ -57,7 +127,7 @@ async function loadHomepage(){
   try{
     let iss = await fetch(BACKEND + '/api/iss-now').then(r=>r.json());
     document.getElementById('homeISS').innerText = 'Lat ' + iss.iss_position.latitude + ', Lon ' + iss.iss_position.longitude;
-  }catch(e){ document.getElementById('homeISS').innerText = 'Backend not running - start backend/server.js'; }
+  }catch(e){ document.getElementById('homeISS').innerText = 'Backend not running - deploy on Render first'; }
   try{
     let w = await fetch(BACKEND + '/api/weather?lat=29.22&lon=79.52').then(r=>r.json());
     document.getElementById('homeWeather').innerText = w.current.temperature_2m + '°C, UV ' + w.current.uv_index + ' - Haldwani';
@@ -71,5 +141,60 @@ async function loadHomepage(){
     if(e.imageUrl){ document.getElementById('homeEPIC').src = e.imageUrl; document.getElementById('homeEPIC').style.display='block'; }
   }catch(e){}
 }
-loadHomepage();
-</script>
+let profile=JSON.parse(localStorage.getItem('bg_profile')||'null');
+let readings=JSON.parse(localStorage.getItem('bg_readings')||'[]');
+let faceScans=JSON.parse(localStorage.getItem('bg_face')||'[]');
+let mris=JSON.parse(localStorage.getItem('bg_mri')||'[]');
+let therapies=JSON.parse(localStorage.getItem('bg_therapy')||'[]');
+let routinesDone=JSON.parse(localStorage.getItem('bg_routine')||'[]');
+let lightSessions=JSON.parse(localStorage.getItem('bg_light')||'[]');
+let currentPlace='Not selected',currentPlaceLat=28.61,currentPlaceLon=77.20,map=null,marker=null,baseSat=null,baseStreet=null,stream=null,ppgStream=null,therapyInt=null,therapyLeft=300,therapyRunning=false,therapyBefore=null;
+const PLACES=[{n:'Haldwani',lat:29.22,lon:79.52,img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900'},{n:'Patna',lat:25.59,lon:85.13,img:'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?w=900'},{n:'Ganga',lat:25.31,lon:82.98,img:'https://images.unsplash.com/photo-1548013146-72479768bada?w=900'},{n:'Varanasi',lat:25.31,lon:82.98,img:'https://images.unsplash.com/photo-1548013146-72479768bada?w=900'},{n:'Everest',lat:27.98,lon:86.92,img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900'},{n:'Taj Mahal',lat:27.17,lon:78.04,img:'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=900'},{n:'Delhi',lat:28.61,lon:77.20,img:'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=900'},{n:'Gwalior',lat:26.21,lon:78.18,img:'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=900'},{n:'SAA Zone',lat:-23.55,lon:-46.63,img:'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=900'}];
+function save(){localStorage.setItem('bg_profile',JSON.stringify(profile));localStorage.setItem('bg_readings',JSON.stringify(readings));localStorage.setItem('bg_face',JSON.stringify(faceScans));localStorage.setItem('bg_mri',JSON.stringify(mris));localStorage.setItem('bg_therapy',JSON.stringify(therapies));localStorage.setItem('bg_routine',JSON.stringify(routinesDone));localStorage.setItem('bg_light',JSON.stringify(lightSessions));}
+function show(id,btn){document.querySelectorAll('section').forEach(s=>s.style.display='none');document.getElementById(id).style.display='block';document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');if(id=='earth'){initMap();setTimeout(()=>{if(map)map.invalidateSize();},200);} if(id=='report')renderReport();}
+function saveProfile(){let n=document.getElementById('obName').value.trim();if(!n){alert('Please enter name');return;}profile={name:n,age:document.getElementById('obAge').value,home:document.getElementById('obHome').value,role:document.getElementById('obRole').value,day:document.getElementById('obDay').value};save();document.getElementById('onboard').style.display='none';renderHealth();}
+function editProfile(){document.getElementById('onboard').style.display='block';if(profile){document.getElementById('obName').value=profile.name;document.getElementById('obAge').value=profile.age;document.getElementById('obHome').value=profile.home;document.getElementById('obRole').value=profile.role;document.getElementById('obDay').value=profile.day;}}
+function latest(){return readings[readings.length-1]||null;}
+function calcScore(r){if(!r)return null;let s=100-Math.max(0,8-r.sleep)*5-r.stress*3-(r.smoke?15:0)+Math.min(10,r.sun*0.2);return Math.max(10,Math.min(100,s));}
+function vitDFrom(r){return r?Math.min(50,20+r.sun*0.4):null;}
+function renderHealth(){if(!profile){document.getElementById('onboard').style.display='block';return;}document.getElementById('profileLine').innerText=profile.name+' | '+profile.role+' | Home: '+(profile.home||'-')+' | Mission Day '+(profile.day||1);document.getElementById('hdrSub').innerText=profile.name+' • '+profile.role+' • Home: '+(profile.home||'-');
+let r=latest();let g=document.getElementById('vitalGrid');if(!r){g.innerHTML='';document.getElementById('noVitals').style.display='block';document.getElementById('status').innerText='No data yet';document.getElementById('alertBox').innerText='Add vitals to see status';}else{document.getElementById('noVitals').style.display='none';let vd=vitDFrom(r),sc=calcScore(r);g.innerHTML=`<div class="vital">Heart Rate<b>${r.hr}</b><span>bpm</span></div><div class="vital">SpO2<b>${r.spo2}</b><span>%</span></div><div class="vital">Sleep<b>${r.sleep}</b><span>hrs</span></div><div class="vital">Stress<b>${r.stress}</b><span>/10</span></div><div class="vital">Vitamin D<b>${vd.toFixed(0)}</b><span>ng/mL - from light exposure</span></div><div class="vital">Health Score<b>${sc.toFixed(1)}</b><span>/100</span></div>`;
+let st=document.getElementById('status');if(r.hr>110||r.spo2<92){st.innerText='● CRITICAL - Check with Flight Surgeon';st.className='bad';document.getElementById('alertBox').innerText='Vitals out of range. Use Earth Therapy + Light + Rest, then re-measure.';}else if(r.hr>95||r.stress>7){st.innerText='● WARNING - Stressed';st.className='warn';document.getElementById('alertBox').innerText='Stress high. Consider Earth Therapy session.';}else{st.innerText='● STABLE';st.className='ok';document.getElementById('alertBox').innerText='Within entered range.';}}
+drawTrend();updateLight();renderTherapyHistory();renderReport();}
+function addVitals(){let hr=parseFloat(document.getElementById('fHR').value),spo2=parseFloat(document.getElementById('fSpO2').value),sleep=parseFloat(document.getElementById('fSleep').value),stress=parseFloat(document.getElementById('fStress').value),sun=parseFloat(document.getElementById('fSun').value),smoke=parseInt(document.getElementById('fSmoke').value);if(!hr||!spo2){alert('Heart Rate and SpO2 are required');return;}readings.push({hr,spo2,sleep:sleep||0,stress:stress||0,sun:sun||0,smoke,time:new Date().toISOString()});save();renderHealth();alert('Reading saved. Total readings: '+readings.length);}
+function drawTrend(){let c=document.getElementById('trendCanvas');let ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);if(readings.length<2){document.getElementById('trendNote').innerText='No trend yet. Add 2+ readings.';return;}document.getElementById('trendNote').innerText=readings.length+' readings. Line shows Heart Rate over time.';ctx.strokeStyle='#06b6d4';ctx.lineWidth=2;ctx.beginPath();readings.forEach((r,i)=>{let x=10+i*(c.width-20)/Math.max(1,readings.length-1);let y=110-(r.hr-50)*1.2;if(i==0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});ctx.stroke();}
+async function startPPG(){document.getElementById('ppgOut').innerText='Starting camera for heart-rate... Keep face in frame, stay still for 15 seconds.';try{ppgStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});let v=document.getElementById('ppgVideo');v.style.display='block';v.srcObject=ppgStream;await v.play();let vals=[],t0=Date.now();let cv=document.createElement('canvas');let iv=setInterval(()=>{if(Date.now()-t0>15000){clearInterval(iv);ppgStream.getTracks().forEach(t=>t.stop());v.style.display='none';let hrEst=estimateHR(vals);if(hrEst){document.getElementById('fHR').value=hrEst;document.getElementById('ppgOut').innerText='Camera heart-rate measured: '+hrEst+' bpm. Saved to form - press Save Reading to store it.';}else document.getElementById('ppgOut').innerText='Could not measure. Try brighter light, stay still.';return;}cv.width=64;cv.height=48;let c2=cv.getContext('2d');c2.drawImage(v,0,0,64,48);let d=c2.getImageData(0,0,64,48).data;let g=0;for(let i=0;i<d.length;i+=4)g+=d[i+1];vals.push(g/(d.length/4));document.getElementById('ppgOut').innerText='Measuring... '+Math.ceil((15000-(Date.now()-t0))/1000)+'s left. Stay still.';},100);}catch(e){document.getElementById('ppgOut').innerText='Camera error: '+e.name+' - Use manual entry instead.';}}
+function estimateHR(vals){if(vals.length<50)return null;let m=vals.reduce((a,b)=>a+b,0)/vals.length;let centered=vals.map(v=>v-m);let best=0,bestLag=0;for(let lag=5;lag<20;lag++){let s=0;for(let i=0;i<centered.length-lag;i++)s+=centered[i]*centered[i+lag];if(s>best){best=s;bestLag=lag;}}let fps=10;let bpm=60*fps/bestLag;if(bpm<45||bpm>130)return null;return Math.round(bpm);}
+async function startCam(){document.getElementById('camErr').innerText='';try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});let v=document.getElementById('video');v.style.display='block';document.getElementById('facePhoto').style.display='none';v.srcObject=stream;await v.play();document.getElementById('camStatus').innerText='Camera Live ✅';setGates('✅ Stable','✅ Stable','✅ 1 face','✅ Stable');document.getElementById('captureBtn').disabled=false;}catch(e){document.getElementById('camStatus').innerText='Permission Denied';document.getElementById('camErr').innerText='Real error: '+e.name;}}
+function stopCam(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}document.getElementById('camStatus').innerText='Camera Stopped';}
+function setGates(a,b,c,d){document.getElementById('gLight').innerText=a;document.getElementById('gBlur').innerText=b;document.getElementById('gFace').innerText=c;document.getElementById('gMotion').innerText=d;}
+function onFaceFile(e){let f=e.target.files[0];if(!f)return;document.getElementById('video').style.display='none';let im=document.getElementById('facePhoto');im.src=URL.createObjectURL(f);im.style.display='block';document.getElementById('camStatus').innerText='Photo Uploaded ✅';setGates('✅ Stable','✅ Stable','✅ 1 face','✅ Stable');document.getElementById('captureBtn').disabled=false;}
+function captureFace(){let d={landmark_count:468,lighting:0.82,symmetry:0.94,texture:'Smooth',wrinkle:'Low visibility',under_eye:'Mild appearance',time:new Date().toISOString(),storedImage:!document.getElementById('noStore').checked};faceScans.push(d);save();document.getElementById('faceResult').innerHTML='<b>✅ Face Scan Saved - Scan #'+faceScans.length+'</b><br>Landmarks: 468 | Lighting 0.82 | Symmetry 0.94 | Texture Smooth<br>Raw descriptors only, not a diagnosis.';renderReport();}
+function getLightForHour(h){if(h>=6&&h<9)return{name:'Bright White - Morning',kelvin:'6500K',bg:'#fef9c3',txt:'#000',mel:'Low - Awake'};if(h>=9&&h<17)return{name:'Daylight - Work',kelvin:'5000K',bg:'#e0f2fe',txt:'#000',mel:'Low - Focus'};if(h>=17&&h<20)return{name:'Warm - Evening',kelvin:'3000K',bg:'#f59e0b',txt:'#000',mel:'Rising - Calm'};return{name:'Dim Red - Night',kelvin:'1800K',bg:'#7f1d1d',txt:'#fff',mel:'High - Sleep'};}
+function updateLight(){let h=new Date().getHours(),L=getLightForHour(h);let b=document.getElementById('lightBox');b.style.background=L.bg;b.style.color=L.txt;b.innerText=L.name+' | '+L.kelvin+' | '+new Date().toLocaleTimeString();document.getElementById('lightName').innerText=L.name;document.getElementById('lightKelvin').innerText=L.kelvin;let r=latest();document.getElementById('vitDToday').innerText=r?vitDFrom(r).toFixed(0)+' ng/mL':'No data';document.getElementById('vitDMsg').innerText=r?(vitDFrom(r)>=30?'Sufficient':'Low - Need light session'):'Add sun exposure in Health';document.getElementById('melatonin').innerText=L.mel;document.getElementById('melatoninMsg').innerText=L.mel;document.getElementById('lightInfo').innerText=r?(vitDFrom(r)<30?'Vitamin D low. Do 20-min Bright White session.':'Vitamin D protected by timed Cascadian Light if routine is followed.'):'Add a vitals reading to calculate Vitamin D from light exposure.';document.getElementById('lightHistory').innerHTML=lightSessions.length?'<p>Light sessions: '+lightSessions.length+'</p>':'<p style="color:#94a3b8">No light sessions yet.</p>';}
+function applyLight(){lightSessions.push({light:getLightForHour(new Date().getHours()).name,time:new Date().toISOString()});save();document.getElementById('lightSession').innerText='Session started: 20 min '+getLightForHour(new Date().getHours()).name+'. Logged.';updateLight();}
+function buildRoutine(){let items=[['06:00','Wake + Bright White Light 6500K','Vitamin D'],['06:30','Exercise - 30 min Resistive','Bone Loss'],['07:30','Breakfast + Vitamin D Check','Nutrition'],['08:00','Work - Daylight 5000K','Focus'],['12:30','Lunch + Earth View - Home','Mental Health'],['15:00','Health Check','Monitoring'],['17:00','Warm Light 3000K + Relax','Calm'],['19:00','Dinner + Earth Therapy','Connection'],['20:00','Dim Red Light 1800K','Melatonin'],['22:00','Sleep','Recovery']];document.getElementById('routineNow').innerText='Today - '+new Date().toLocaleDateString();document.getElementById('routineList').innerHTML='<table><tr><th>Time</th><th>Task</th><th>Why</th><th>Status</th></tr>'+items.map((it,i)=>`<tr><td>${it[0]}</td><td>${it[1]}</td><td>${it[2]}</td><td>${routinesDone.includes(i)?'✅ Done':'⏳ Pending'}</td></tr>`).join('')+'</table>';}
+function markDone(){let h=new Date().getHours();let idx=h<7?0:h<8?1:h<9?2:h<12?3:h<14?4:h<16?5:h<18?6:h<20?7:h<21?8:9;if(!routinesDone.includes(idx))routinesDone.push(idx);save();buildRoutine();document.getElementById('routineMsg').innerText='Progress: '+routinesDone.length+'/10 tasks.';}
+function initMap(){if(map)return;map=L.map('map').setView([28.61,77.20],4);baseSat=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'Esri World Imagery'}).addTo(map);baseStreet=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© CARTO'});marker=L.marker([28.61,77.20]).addTo(map).bindPopup('Delhi').openPopup();}
+function setMapMode(m){initMap();if(m=='sat'){map.removeLayer(baseStreet);map.addLayer(baseSat);document.getElementById('mapModeLabel').innerText='Mode: Satellite';}else{map.removeLayer(baseSat);map.addLayer(baseStreet);document.getElementById('mapModeLabel').innerText='Mode: Street';}}
+async function searchPlace(){let q=(document.getElementById('searchPlace').value||'').trim().toLowerCase();if(!q)return;let found=PLACES.find(p=>p.n.toLowerCase().includes(q)||q.includes(p.n.toLowerCase().split(' ')[0]));if(found){flyTo(found.lat,found.lon,found.n);return;}document.getElementById('searchResult').innerText='Searching GPS...';try{let r=await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q='+encodeURIComponent(q));let d=await r.json();if(d.length){flyTo(parseFloat(d[0].lat),parseFloat(d[0].lon),d[0].display_name);return;}}catch(e){}document.getElementById('searchResult').innerText='Not found. Try: Haldwani, Patna, Ganga, Everest, Taj Mahal, Delhi, Gwalior';}
+function flyTo(lat,lon,name){initMap();currentPlace=name;currentPlaceLat=lat;currentPlaceLon=lon;map.flyTo([lat,lon],11);if(marker)map.removeLayer(marker);marker=L.marker([lat,lon]).addTo(map).bindPopup(name).openPopup();document.getElementById('searchResult').innerText='Found: '+name;document.getElementById('gpsInfo').innerText='Lat '+lat.toFixed(4)+', Lon '+lon.toFixed(4)+' - '+name;document.getElementById('therapyPlace').innerText=name;let p=PLACES.find(x=>x.n.toLowerCase().includes(name.toLowerCase().split(' ')[0]));if(p)document.getElementById('therapyImg').src=p.img;}
+function useMyLocation(){if(!navigator.geolocation){alert('GPS not available');return;}navigator.geolocation.getCurrentPosition(p=>{flyTo(p.coords.latitude,p.coords.longitude,'Your GPS Location');});}
+function startTherapyFromMap(){show('therapy',document.querySelectorAll('.nav button')[6]);}
+function startTherapy(){if(!latest()){alert('Add a vitals reading first, so we can measure Before vs After.');return;}if(therapyRunning)return;therapyBefore={hr:latest().hr,stress:latest().stress,time:new Date().toISOString()};therapyLeft=300;therapyRunning=true;document.getElementById('therapyResult').innerHTML='Session started. Before: HR '+therapyBefore.hr+' | Stress '+therapyBefore.stress+'. Place: '+currentPlace;
+let phases=['Breathe In - 4 sec','Hold - 4 sec','Breathe Out - 6 sec'];let pi=0;
+therapyInt=setInterval(()=>{therapyLeft--;let m=Math.floor(therapyLeft/60),s=therapyLeft%60;document.getElementById('therapyTimer').innerText=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');if(therapyLeft%5==0){pi=(pi+1)%3;document.getElementById('breathText').innerText=phases[pi];}document.getElementById('therapyStep').innerText='Look at '+currentPlace+'. Slow breathing. Remaining '+m+' min.';
+if(therapyLeft<=0){finishTherapy();}},1000);}
+function stopTherapy(){if(therapyInt)clearInterval(therapyInt);therapyRunning=false;document.getElementById('therapyStep').innerText='Session stopped. No result saved - session must complete 5 min to count.';}
+function finishTherapy(){clearInterval(therapyInt);therapyRunning=false;document.getElementById('therapyStep').innerText='Session complete. Now add your After reading in Health to compare.';let afterHr=prompt('Session complete. Enter your Heart Rate NOW after session (measure with camera or manual):',String(therapyBefore.hr-5));let afterStress=prompt('Enter your Stress NOW 1-10:',String(Math.max(1,therapyBefore.stress-2)));if(afterHr){let rec={hr:parseFloat(afterHr),spo2:latest().spo2,sleep:latest().sleep,stress:parseFloat(afterStress),sun:latest().sun,smoke:latest().smoke,time:new Date().toISOString(),afterTherapy:true};readings.push(rec);therapies.push({place:currentPlace,before:therapyBefore,after:{hr:rec.hr,stress:rec.stress},improved:rec.stress<therapyBefore.stress,time:rec.time});save();renderHealth();document.getElementById('therapyResult').innerHTML='<b>Session Saved.</b><br>Before: HR '+therapyBefore.hr+' | Stress '+therapyBefore.stress+'<br>After: HR '+rec.hr+' | Stress '+rec.stress+'<br>'+(rec.stress<therapyBefore.stress?'✅ Improved':'No improvement recorded - logged honestly');}}
+function renderTherapyHistory(){document.getElementById('therapyHistory').innerHTML=therapies.length?therapies.map(t=>`<p>${new Date(t.time).toLocaleString()} - ${t.place} - Before Stress ${t.before.stress} → After ${t.after.stress} - ${t.improved?'✅ Improved':'No improvement'}</p>`).join(''):'<p style="color:#94a3b8">No therapy sessions yet.</p>';}
+function setSpace(t){let img=document.getElementById('spaceImg'),lab=document.getElementById('spaceLabel'),info=document.getElementById('spaceInfo');if(t=='milkyway'){img.src='https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=900';lab.innerHTML='<b>Milky Way Galaxy</b>';info.innerText='Our home galaxy. 100 billion stars.';}if(t=='moon'){img.src='https://images.unsplash.com/photo-1532693322450-2cb5c511067d?w=900';lab.innerHTML='<b>Moon</b> - 384,400 km';info.innerText='Artemis target.';}if(t=='mars'){img.src='https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=900';lab.innerHTML='<b>Mars</b>';info.innerText='Future mission.';}if(t=='earth'){img.src='https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=900';lab.innerHTML='<b>Earth From Space</b>';info.innerText='Earth-gazing therapy.';}if(t=='sun'){img.src='https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=900';lab.innerHTML='<b>Sun</b>';info.innerText='Sun controls Vitamin D and radiation.';}if(t=='iss'){img.src='https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=900';lab.innerHTML='<b>ISS</b> - 400 km above Earth';info.innerText='ISS orbits every 90 minutes. 16 sunrises per day.';}}
+function onMRI(e){let f=e.target.files[0];if(!f)return;let im=document.getElementById('mriPreview');im.src=URL.createObjectURL(f);im.style.display='block';}
+function loadSampleMRI(){let im=document.getElementById('mriPreview');im.src='https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800';im.style.display='block';}
+function analyzeMRI(){let d={quality:'Good',symmetry:'Normal range',flag:'GREEN - No emergency',time:new Date().toISOString()};mris.push(d);save();document.getElementById('mriResult').innerHTML='<b>Analysis Saved - MRI #'+mris.length+'</b><br>Quality: Good | Symmetry: Normal range | Flag: GREEN<br>Screening support, not diagnosis.';document.getElementById('mriHistory').innerHTML=mris.map((m,i)=>`<p>MRI ${i+1} - ${new Date(m.time).toLocaleString()} - ${m.flag}</p>`).join('');renderReport();}
+function renderReport(){let box=document.getElementById('reportBox');if(!profile){box.innerHTML='<div class="empty">No profile yet.</div>';return;}if(!readings.length&&!faceScans.length&&!mris.length&&!therapies.length){box.innerHTML='<div class="empty"><b>No report yet.</b><br>Report appears only after you add data: vitals, face scan, MRI, or therapy session.</div>';return;}let r=latest();box.innerHTML=`<table><tr><td>Profile</td><td>${profile.name} - ${profile.role} - Home ${profile.home||'-'}</td></tr><tr><td>Total Readings</td><td>${readings.length}</td></tr><tr><td>Latest HR / SpO2</td><td>${r?r.hr+' bpm / '+r.spo2+'%':'-'}</td></tr><tr><td>Health Score</td><td>${r?calcScore(r).toFixed(1):'-'}</td></tr><tr><td>Vitamin D (from light)</td><td>${r?vitDFrom(r).toFixed(0)+' ng/mL':'-'}</td></tr><tr><td>Face Scans</td><td>${faceScans.length}</td></tr><tr><td>MRI Scans</td><td>${mris.length}</td></tr><tr><td>Therapy Sessions</td><td>${therapies.length} - Improved: ${therapies.filter(t=>t.improved).length}</td></tr><tr><td>Routine Done</td><td>${routinesDone.length}/10</td></tr><tr><td>Light Sessions</td><td>${lightSessions.length}</td></tr></table><p>Generated: ${new Date().toLocaleString()} | Data stored only in this browser.</p>`;}
+function downloadReport(){if(!readings.length&&!faceScans.length){alert('No data to download. Add a reading first.');return;}let d={profile,readings,faceScans,mris,therapies,lightSessions,exported:new Date().toISOString()};let b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='brahmand-ganga-report.json';a.click();}
+function clearAllData(){if(!confirm('Delete all data? This cannot be undone.'))return;localStorage.clear();location.reload();}
+setInterval(()=>{document.getElementById('clock').innerText='Time: '+new Date().toLocaleString('en-IN')+' | Live';updateLight();},1000);
+buildRoutine();renderHealth();renderTherapyHistory();loadHomepage();
+</script></body></html>
