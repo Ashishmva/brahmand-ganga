@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OrbitTrack Pro - Brahmand Ganga</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#020617;color:#e2e8f0;font-family:Inter,Arial}
+.hero{position:relative;min-height:520px;background:url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1600') center/cover;padding:18px;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,6,23,.55),rgba(2,6,23,.92))}
+.hero>*{position:relative;z-index:2}
+.logo{font-family:Orbitron;font-size:30px;font-weight:800}.pill{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800}.green{background:#14532d;color:#4ade80}.red{background:#7f1d1d;color:#fca5a5}.orange{background:#78350f;color:#fbbf24}.blue{background:#1e3a8a;color:#93c5fd}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.nav{display:flex;gap:8px;flex-wrap:wrap}.nav a{color:#cbd5e1;text-decoration:none;font-weight:700;font-size:13px;padding:8px 12px;border-radius:20px;background:rgba(15,23,42,.7);border:1px solid #1e293b}
+.dash{max-width:1100px;margin:18px auto 0;background:rgba(2,6,23,.92);border:1px solid #38bdf8;border-radius:16px;padding:14px;box-shadow:0 20px 60px #000}
+.dashTop{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.grid{display:grid;grid-template-columns:1fr 1.6fr 1fr;gap:12px;margin-top:12px}
+.card{background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:12px}
+.card h3{margin:0 0 8px;font-size:12px;letter-spacing:1px}.row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1e293b55;font-size:12px}.row b{white-space:nowrap}
+canvas{width:100%;height:70px;background:#020617;border-radius:8px}
+img{width:100%;border-radius:10px;display:block;object-fit:cover}
+button{cursor:pointer;border:0;padding:10px 14px;border-radius:20px;font-weight:700}.chip{background:#1e293b;color:#fff}.chip.active{background:#38bdf8;color:#000}
+.bottom{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:1100px;margin:14px auto;padding:0 18px 18px}
+.bcard{background:rgba(2,6,23,.9);border:1px solid #1e293b;border-radius:14px;padding:12px;cursor:pointer}.bcard:hover{border-color:#38bdf8;transform:translateY(-2px)}
+.bcard img{height:90px}.bcard h4{margin:8px 0 4px}.bcard p{font-size:11px;color:#94a3b8;margin:0}
+.panel{display:none;max-width:1100px;margin:0 auto 18px;background:#0f172a;border:1px solid #38bdf8;border-radius:14px;padding:16px}.panel.active{display:block}
+@media(max-width:900px){.grid,.bottom{grid-template-columns:1fr}.hero{min-height:auto}}
+</style></head><body>
+<div class="hero">
+<div class="top"><div class="logo">🛰️ OrbitTrack</div><div class="nav"><a href="index.html">← Home</a><a href="orbit-control.html">Orbit Control</a><a href="mission-control.html">Mission Control</a><a href="full-body.html">Full Body</a></div><div><span class="pill green">● LIVE</span> <span style="font-size:12px;color:#94a3b8" id="utc">UTC --</span></div></div>
+<p style="text-align:center;color:#93c5fd;letter-spacing:2px;font-size:11px;margin:14px 0 0">REAL-TIME SATELLITE TRACKING • ISRO + NASA • BRAHMAND GANGA</p>
+<h1 style="text-align:center;font-family:Orbitron;font-size:34px;margin:6px 0">Track Every Orbit. <span style="color:#38bdf8">Live.</span></h1>
+<p style="text-align:center;color:#94a3b8;margin:0">ISS Live Position • DONKI Solar Alerts • Telemetry • Ground Station Haldwani • Patna</p>
+
+<div class="dash">
+<div class="dashTop"><div><b style="font-family:Orbitron">🛰️ OrbitTrack Dashboard</b> &nbsp; <span class="pill green">● LIVE</span> &nbsp; <span style="color:#94a3b8;font-size:12px" id="topStatus">Connecting to Backend...</span></div><div style="display:flex;gap:6px;flex-wrap:wrap" id="places"></div><div><button onclick="loadAll()" style="background:#38bdf8">↻ Refresh</button></div></div>
+<div class="grid">
+<div class="card"><h3>ORBIT-X92 • ISS - ZARYA</h3><p style="font-size:11px;color:#94a3b8;margin:0">NORAD 25544 • LEO • 51.6°</p><div class="row"><span>Signal Strength</span><b>98%</b></div><div class="row"><span>Battery Level</span><b>84%</b></div><div class="row"><span>Altitude</span><b id="dashAlt">408 KM</b></div><div class="row"><span>Velocity</span><b>27,600 KM/H</b></div><div class="row"><span>Mission Status</span><b class="pill green">Active</b></div><div class="row"><span>Latitude</span><b id="dashLat">--</b></div><div class="row"><span>Longitude</span><b id="dashLon">--</b></div></div>
+<div class="card"><h3>🌍 REAL-TIME SATELLITE TRACKING</h3><img id="earthMap" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1000" style="height:210px"><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;justify-content:center"><span class="pill blue">ORBIT-07</span><span class="pill blue">ORBIT-16</span><span class="pill green">ORBIT-11 • Active</span><span class="pill orange">ORBIT-09 • Standby</span></div><p style="font-size:11px;color:#94a3b8;text-align:center">Ground Track: <b id="groundTrack" style="color:#fff">Loading...</b></p></div>
+<div class="card"><h3>LIVE ANALYTICS</h3><div class="row"><span>Weather Monitoring</span><b>98%</b></div><div style="height:6px;background:#1e293b;border-radius:20px"><div style="height:100%;width:98%;background:#38bdf8;border-radius:20px"></div></div><div class="row"><span>Communication Status</span><b>96%</b></div><div style="height:6px;background:#1e293b;border-radius:20px"><div style="height:100%;width:96%;background:#22c55e;border-radius:20px"></div></div><div class="row"><span>Orbit Prediction</span><b>99%</b></div><div style="height:6px;background:#1e293b;border-radius:20px"><div style="height:100%;width:99%;background:#a78bfa;border-radius:20px"></div></div><div class="row"><span>Ground Station</span><b>Connected</b></div><h3 style="margin-top:10px">⚠️ ALERTS</h3><div id="alertMini" style="font-size:12px;color:#fbbf24">Loading DONKI alerts...</div></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-top:12px;font-size:12px"><div style="background:#020617;padding:10px;border-radius:10px;text-align:center">Total Satellites<br><b>24</b></div><div style="background:#020617;padding:10px;border-radius:10px;text-align:center">Active<br><b style="color:#4ade80">19</b></div><div style="background:#020617;padding:10px;border-radius:10px;text-align:center">Standby<br><b style="color:#fbbf24">3</b></div><div style="background:#020617;padding:10px;border-radius:10px;text-align:center">Critical<br><b style="color:#f87171">1</b></div></div>
+</div>
+</div>
+
+<div class="bottom">
+<div class="bcard" onclick="openPanel('map')"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600"><h4>🌍 Orbit Mapping</h4><p>Live ISS map + Ground Track + Next Pass. Click to open.</p><button style="background:#38bdf8;width:100%;margin-top:8px">Open Mapping →</button></div>
+<div class="bcard" onclick="openPanel('telemetry')"><img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=600"><h4>📡 Live Telemetry</h4><p>408 KM • Signal 98% • Battery 84% • 27,600 KM/H. Click to open.</p><button style="background:#38bdf8;width:100%;margin-top:8px">Open Telemetry →</button></div>
+<div class="bcard" onclick="openPanel('alerts')"><img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=600"><h4>🔔 Smart Alerts</h4><p>Signal fluctuation, Battery low, DONKI solar events. Click to open.</p><button style="background:#f59e0b;width:100%;margin-top:8px">Open Alerts →</button></div>
+<div class="bcard" onclick="openPanel('signal')"><img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=600"><h4>📶 Signal Insights</h4><p>Signal strength chart + Uplink / Downlink LOCKED. Click to open.</p><button style="background:#38bdf8;width:100%;margin-top:8px">Open Insights →</button></div>
+</div>
+
+<div id="panel-map" class="panel"><h2 style="margin:0">🌍 Orbit Mapping</h2><p style="color:#94a3b8">Live ISS: <b id="mapPos">Loading...</b></p><img id="mapImg" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200" style="height:300px"><div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap"><div>Next Pass: <b>in 12m 43s</b></div><div>AOS: <b id="aos">--</b></div><div>LOS: <b id="los">--</b></div></div></div>
+<div id="panel-telemetry" class="panel"><h2 style="margin:0">📡 Live Telemetry</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px"><div><div class="row"><span>Altitude</span><b>408 KM</b></div><div class="row"><span>Velocity</span><b>7.66 km/s • 27,600 KM/H</b></div><div class="row"><span>Latitude</span><b id="teleLat">--</b></div><div class="row"><span>Longitude</span><b id="teleLon">--</b></div></div><div><div class="row"><span>Signal Strength</span><b>98%</b></div><div class="row"><span>Battery Level</span><b>84%</b></div><div class="row"><span>Bus Voltage</span><b>28.4 V</b></div><div class="row"><span>Data Rate</span><b>12.6 Mbps</b></div></div></div></div>
+<div id="panel-alerts" class="panel"><h2 style="margin:0">🔔 Smart Alerts - NASA DONKI</h2><div id="alertList" style="margin-top:12px"><p style="color:#94a3b8">Loading DONKI alerts...</p></div></div>
+<div id="panel-signal" class="panel"><h2 style="margin:0">📶 Signal Insights</h2><p style="color:#94a3b8">Uplink 8.402 GHz LOCKED • Downlink 8.255 GHz LOCKED</p><canvas id="sigCanvas" width="800" height="100"></canvas><p style="font-size:12px;color:#94a3b8">Signal over last 30 min - Stable 94-98%</p></div>
+
+<div style="text-align:center;font-size:11px;color:#94a3b8;padding:0 0 18px">ORBITTRACK PRO • BRAHMAND GANGA • TEAM REBORN INNOVATORS • LIVE ISS + NASA DONKI + ISRO</div>
+<script>
+const API="https://brahmand-ganga-backend.onrender.com";
+const PLACES=[{name:"Haldwani",lat:29.22,lon:79.52},{name:"Patna",lat:25.59,lon:85.13},{name:"ISRO Bengaluru",lat:12.97,lon:77.59},{name:"NASA Houston",lat:29.55,lon:-95.09}];
+let current=PLACES[0];
+function renderPlaces(){document.getElementById("places").innerHTML=PLACES.map(p=>`<button class="chip ${p.name===current.name?'active':''}" onclick="selectPlace('${p.name}')">${p.name}</button>`).join("");}
+function selectPlace(n){current=PLACES.find(p=>p.name===n);renderPlaces();loadAll();}
+function openPanel(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('panel-'+id).classList.add('active');document.getElementById('panel-'+id).scrollIntoView({behavior:"smooth"});}
+function updateClock(){document.getElementById("utc").textContent="UTC "+new Date().toISOString().slice(0,19).replace("T"," ");}
+setInterval(updateClock,1000);updateClock();
+const now=new Date(); const fmt=(a)=>{let d=new Date(now.getTime()+a*60000);return d.toISOString().slice(11,19);};document.getElementById("aos").textContent=fmt(12);document.getElementById("los").textContent=fmt(22);
+function drawSignal(){let c=document.getElementById("sigCanvas"),ctx=c.getContext("2d");ctx.fillStyle="#020617";ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle="#38bdf8";ctx.lineWidth=2;ctx.beginPath();for(let x=0;x<c.width;x++){let y=50+Math.sin(x*0.05)*12+Math.random()*4;if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}ctx.stroke();}
+drawSignal();setInterval(drawSignal,2000);
+async function loadAll(){
+  try{const i=await fetch(API+"/api/iss-now").then(r=>r.json());const lat=i.iss_position?.latitude||i.latitude, lon=i.iss_position?.longitude||i.longitude;if(lat&&lon){document.getElementById("dashLat").textContent=lat+"°";document.getElementById("dashLon").textContent=lon+"°";document.getElementById("groundTrack").textContent=lat+"° N, "+lon+"° E";document.getElementById("mapPos").textContent=lat+"° N, "+lon+"° E";document.getElementById("teleLat").textContent=lat+"° N";document.getElementById("teleLon").textContent=lon+"° E";document.getElementById("earthMap").src=`https://static-maps.yandex.ru/1.x/?ll=${lon},${lat}&z=2&l=map&size=900,250&pt=${lon},${lat},pm2rdm`;document.getElementById("mapImg").src=`https://static-maps.yandex.ru/1.x/?ll=${lon},${lat}&z=2&l=map&size=1100,350&pt=${lon},${lat},pm2rdm`;document.getElementById("topStatus").textContent="● ONLINE • BACKEND LIVE";}}catch(e){}
+  try{const d=await fetch(API+"/api/nasa/donki").then(r=>r.json());const c=d.count??d.data?.length;const ev=d.data||d.events||[];if(c){document.getElementById("alertMini").innerHTML=ev.slice(0,2).map((e,idx)=>`⚠️ ${e.activityID||e.flrID||"Solar Event "+(idx+1)} - ${e.startTime?.slice(0,10)||"Recent"}<br>`).join("")||"⚠️ Signal fluctuation detected";document.getElementById("alertList").innerHTML=ev.slice(0,6).map((e,idx)=>`<div class="row"><span>⚠️ ${e.activityID||e.flrID||"Event "+(idx+1)}</span><b>${e.startTime?.slice(0,10)||"Recent"} • DONKI</b></div>`).join("")||"<p>No alerts</p>";}}catch(e){}
+}
+renderPlaces();loadAll();setInterval(loadAll,30000);
+</script></body></html>
