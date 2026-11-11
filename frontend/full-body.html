@@ -6,7 +6,7 @@
 *{box-sizing:border-box}body{margin:0;background:#02181f;color:#d1fae5;font-family:Inter,Arial}
 .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid #0f766e;background:#01161d}
 .top h1{font-family:Orbitron;font-size:22px;margin:0;letter-spacing:1px}.top p{font-size:10px;color:#5eead4;margin:2px 0;letter-spacing:1px}
-.tabs{display:flex;gap:8px;padding:10px 16px;flex-wrap:wrap}.tab{padding:8px 14px;border-radius:8px;background:#0f2a33;color:#94a3b8;border:1px solid #155e63;cursor:pointer;font-weight:700;font-size:12px}.tab.active{background:#0d9488;color:#fff}
+.tabs{display:flex;gap:8px;padding:10px 16px;flex-wrap:wrap;align-items:center}.tab{width:auto!important;flex:none!important;white-space:nowrap;padding:8px 14px;border-radius:8px;background:#0f2a33;color:#94a3b8;border:1px solid #155e63;cursor:pointer;font-weight:700;font-size:12px}.tab.active{background:#0d9488;color:#fff}
 .grid{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:12px;padding:0 14px 14px}
 .card{background:linear-gradient(180deg,#062a33,#041f27);border:1px solid #0e7490;border-radius:12px;padding:12px;position:relative;overflow:hidden}
 .card h3{margin:0 0 6px;font-size:12px;letter-spacing:1px}.card p{font-size:11px;color:#94a3b8;margin:4px 0}
@@ -14,30 +14,31 @@
 canvas{width:100%;height:70px;background:#02181f;border-radius:8px}
 img{width:100%;border-radius:10px;display:block;object-fit:cover}
 .row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #0f766e33;font-size:12px}
-.pill{display:inline-block;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:800}.green{background:#14532d;color:#4ade80}.teal{background:#0f766e;color:#fff}
+.pill{display:inline-block;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:800}.green{background:#14532d;color:#4ade80}
 input,select{width:100%;padding:9px;margin:5px 0;border-radius:8px;border:1px solid #334155;background:#020617;color:#fff}
 button{cursor:pointer;border:0;padding:10px 12px;border-radius:20px;font-weight:700;background:#14b8a6;color:#000;width:100%;margin-top:6px}
 .bar{height:8px;background:#0f2a33;border-radius:20px;overflow:hidden}.bar i{display:block;height:100%;background:#2dd4bf}
-.twin{position:relative;text-align:center}.twin img{height:420px;object-fit:contain}
-.layerBtn{padding:6px 10px;border-radius:20px;background:#0f2a33;color:#fff;border:1px solid #155e63;cursor:pointer;font-size:11px}.layerBtn.active{background:#14b8a6;color:#000}
+.twin{position:relative;text-align:center}.twin img{height:420px;object-fit:cover;object-position:top;transition:opacity .3s}
+.layerBtn{width:auto!important;flex:none!important;white-space:nowrap;padding:7px 12px;border-radius:20px;background:#0f2a33;color:#fff;border:1px solid #155e63;cursor:pointer;font-size:11px;margin:0}.layerBtn.active{background:#14b8a6;color:#000}
+.layerRow{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.hotspot{position:absolute;font-size:10px;color:#a7f3d0;background:rgba(2,24,31,.75);padding:4px 6px;border-radius:6px;border:1px solid #14b8a6;text-align:left}
 @media(max-width:900px){.grid{grid-template-columns:1fr}.twin img{height:320px}}
 </style></head><body>
 <div class="top"><div><p>CONNECTED HEALTH / MULTIMODAL PLATFORM</p><h1>✚ FULL BODY DIAGNOSTICS</h1><p>IMAGING / PHYSIOLOGY / GENOMICS / DIGITAL ANATOMY</p></div>
 <div><b style="font-family:Orbitron">HUMAN <span id="humanId">018</span></b><p>SCAN ID 0842-H • MULTI-SYSTEM STUDY</p></div>
 <div style="background:#062a33;padding:8px 12px;border-radius:10px;border:1px solid #0f766e">🟢 SECURE SESSION<br><b>REAL-TIME</b><p style="margin:0">12 SENSORS / CONNECTED</p></div>
-<div style="text-align:center"><b style="font-family:Orbitron;font-size:22px" id="sysPct">100%</b><p>SYSTEM ONLINE</p></div>
+<div style="text-align:center"><b style="font-family:Orbitron;font-size:22px">100%</b><p>SYSTEM ONLINE</p></div>
 <div><a href="index.html" style="color:#2dd4bf;font-weight:700;text-decoration:none">← Home</a> • <a href="orbit-control.html" style="color:#2dd4bf;font-weight:700;text-decoration:none">Orbit Control</a> • <a href="mission-control.html" style="color:#2dd4bf;font-weight:700;text-decoration:none">Mission Control</a></div></div>
 
 <div class="tabs">
-<button class="tab active" data-t="overview" onclick="showTab('overview',this)">01 OVERVIEW</button>
-<button class="tab" data-t="anatomy" onclick="showTab('anatomy',this)">02 ANATOMY</button>
-<button class="tab" data-t="neuro" onclick="showTab('neuro',this)">03 NEUROLOGY</button>
-<button class="tab" data-t="genomics" onclick="showTab('genomics',this)">04 GENOMICS</button>
-<button class="tab" data-t="imaging" onclick="showTab('imaging',this)">05 IMAGING</button>
+<button class="tab active" onclick="showTab('overview',this)">01 OVERVIEW</button>
+<button class="tab" onclick="showTab('anatomy',this)">02 ANATOMY</button>
+<button class="tab" onclick="showTab('neuro',this)">03 NEUROLOGY</button>
+<button class="tab" onclick="showTab('genomics',this)">04 GENOMICS</button>
+<button class="tab" onclick="showTab('imaging',this)">05 IMAGING</button>
 <span style="margin-left:auto;font-size:11px;color:#94a3b8">ACQUISITION <span style="color:#2dd4bf">████████████</span> COMPLETE • 12 / 12</span></div>
 
 <div class="grid">
-<!-- LEFT -->
 <div>
 <div class="card" data-panel="overview anatomy"><h3>01 LIVE PHYSIOLOGY</h3><p>CONTINUOUS SIGNAL ACQUISITION</p>
 <div class="vitals"><div>💚<b><span id="vHR">72</span> <span style="font-size:10px">BPM</span></b><span style="font-size:10px">HEART RATE</span></div><div><b id="vSpO2">98</b><span style="font-size:10px">SpO2 %</span></div><div><b id="vResp">16</b><span style="font-size:10px">/MIN RESP</span></div><div><b id="vTemp">36.7</b><span style="font-size:10px">°C TEMP</span></div></div>
@@ -47,8 +48,9 @@ button{cursor:pointer;border:0;padding:10px 12px;border-radius:20px;font-weight:
 <button onclick="updateVitals()">Update My Vitals → Twin + Score Updates</button><p id="aiOut" style="color:#fff"></p></div>
 
 <div class="card" data-panel="overview imaging neuro" style="margin-top:12px"><h3>03 MAGNETIC RESONANCE</h3><p>MULTIPLANAR RECONSTRUCTION</p>
-<div style="display:grid;grid-template-columns:1.4fr 1fr;gap:8px"><img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600" style="height:130px"><div><img src="https://images.unsplash.com/photo-1532693322450-2cb5c511067d?w=400" style="height:60px"><img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400" style="height:60px;margin-top:6px"></div></div>
-<p>SLICE <span id="sliceNo">048 / 128</span></p><input type="range" min="1" max="128" value="48" oninput="document.getElementById('sliceNo').textContent=this.value+' / 128'">
+<img id="mriMain" src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600" style="height:150px">
+<p>SLICE <span id="sliceNo">048 / 128</span> • VIEW <span id="mriView">AXIAL</span></p><input type="range" min="1" max="128" value="48" oninput="document.getElementById('sliceNo').textContent=this.value+' / 128'">
+<div style="display:flex;gap:6px;margin-top:6px"><button class="layerBtn" onclick="setMRI('AXIAL',this)">AXIAL</button><button class="layerBtn" onclick="setMRI('SAGITTAL',this)">SAGITTAL</button><button class="layerBtn" onclick="setMRI('CORONAL',this)">CORONAL</button></div>
 <input type="file" id="mriFile" accept="image/*" onchange="onMRI(event)"><img id="mriPrev" style="display:none;height:120px;margin-top:6px">
 <button onclick="analyzeMRI2()">Analyze MRI</button><p id="mriOut"></p></div>
 
@@ -57,25 +59,26 @@ button{cursor:pointer;border:0;padding:10px 12px;border-radius:20px;font-weight:
 <p>CONTRAST</p><div class="bar"><i style="width:72%"></i></div></div>
 </div>
 
-<!-- CENTER -->
 <div>
 <div class="card" data-panel="overview anatomy"><h3>02 HUMAN DIGITAL TWIN</h3><p>MULTILAYER VOLUME / ANTERIOR PROJECTION &nbsp; <span class="pill green" style="float:right">ACTIVE SCAN</span></p>
-<div class="twin"><img id="twinImg" src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=800">
-<div style="position:absolute;top:18%;right:6%;text-align:right;font-size:10px;color:#a7f3d0"><b>NEURAL MAP</b><br>CORTICAL VOLUME</div>
-<div style="position:absolute;top:32%;right:4%;text-align:right;font-size:10px"><b>CARDIAC MODEL</b><br>CORONARY OVERLAY</div>
-<div style="position:absolute;top:52%;right:4%;text-align:right;font-size:10px"><b>ORGAN ATLAS</b><br>ABDOMINAL LAYER</div>
-<div style="position:absolute;top:68%;right:4%;text-align:right;font-size:10px"><b>JOINT TRACKING</b><br>SKELETAL LANDMARKS</div>
-<div style="position:absolute;top:28%;left:2%;font-size:10px"><b>RESPIRATORY</b><br>BILATERAL LUNGS</div>
-<div style="position:absolute;top:48%;left:2%;font-size:10px"><b>SPINAL AXIS</b><br>VERTEBRAL CHAIN</div></div>
-<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"><span style="font-size:11px;color:#94a3b8">LAYERS:</span><button class="layerBtn active" onclick="setLayer('Surface',this)">SURFACE</button><button class="layerBtn" onclick="setLayer('Skeleton',this)">SKELETON</button><button class="layerBtn" onclick="setLayer('Organs',this)">ORGANS</button><button class="layerBtn" onclick="setLayer('Landmarks',this)">LANDMARKS</button><span id="layerInfo" style="font-size:12px;margin-left:6px">Layer: Surface • Twin synced to your vitals</span></div>
-<div style="display:flex;justify-content:space-between;font-size:11px;color:#94a3b8;margin-top:10px"><span>✅ 01 / VOLUME RECONSTRUCTED</span><span>✅ 02 / ANATOMY LAYERED MODEL</span><span>✅ 03 / TRACKING LANDMARK LOCK</span></div></div>
+<div class="twin"><img id="twinImg" src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800">
+<div id="hs1" class="hotspot" style="top:12%;right:4%"><b>NEURAL MAP</b><br>CORTICAL VOLUME</div>
+<div id="hs2" class="hotspot" style="top:30%;right:4%"><b>CARDIAC MODEL</b><br>CORONARY OVERLAY</div>
+<div id="hs3" class="hotspot" style="top:52%;right:4%"><b>ORGAN ATLAS</b><br>ABDOMINAL LAYER</div>
+<div id="hs4" class="hotspot" style="top:72%;right:4%"><b>JOINT TRACKING</b><br>SKELETAL LANDMARKS</div>
+<div id="hs5" class="hotspot" style="top:28%;left:2%"><b>RESPIRATORY</b><br>BILATERAL LUNGS</div>
+<div id="hs6" class="hotspot" style="top:50%;left:2%"><b>SPINAL AXIS</b><br>VERTEBRAL CHAIN</div></div>
+<div class="layerRow"><span style="font-size:11px;color:#94a3b8;padding-top:6px">LAYERS:</span><button class="layerBtn active" id="btn-Surface" onclick="setLayer('Surface')">SURFACE</button><button class="layerBtn" id="btn-Skeleton" onclick="setLayer('Skeleton')">SKELETON</button><button class="layerBtn" id="btn-Organs" onclick="setLayer('Organs')">ORGANS</button><button class="layerBtn" id="btn-Landmarks" onclick="setLayer('Landmarks')">LANDMARKS</button></div>
+<div id="layerInfo" style="background:#02181f;border:1px solid #14b8a6;border-radius:8px;padding:10px;margin-top:10px;font-size:12px"><b>Layer: Surface</b><br>Skin + Surface anatomy • Temp 36.7°C • Twin synced to your vitals • Click SKELETON / ORGANS to change image.</div>
+<div style="display:flex;justify-content:space-between;font-size:11px;color:#94a3b8;margin-top:10px"><span>✅ 01 / VOLUME RECONSTRUCTED</span><span>✅ 02 / ANATOMY LAYERED</span><span>✅ 03 / LANDMARK LOCK</span></div></div>
 
-<div class="card" data-panel="anatomy" style="margin-top:12px;display:none" id="anatomyExtra"><h3>ANATOMY DETAIL</h3><p>Click a system to highlight in Twin</p><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="layerBtn" onclick="setLayer('Cardiac - Heart 72 BPM',this)">❤️ CARDIAC</button><button class="layerBtn" onclick="setLayer('Respiratory - Lungs',this)">🫁 RESPIRATORY</button><button class="layerBtn" onclick="setLayer('Skeletal - Spine + Joints',this)">🦴 SKELETAL</button><button class="layerBtn" onclick="setLayer('Neural - Brain + Nerves',this)">🧠 NEURAL</button></div></div>
+<div class="card" data-panel="anatomy" id="anatomyExtra" style="margin-top:12px;display:none"><h3>ANATOMY DETAIL - CLICK A SYSTEM</h3><p>Each button changes Twin image + detail below</p>
+<div class="layerRow"><button class="layerBtn" onclick="setSystem('Cardiac')">❤️ CARDIAC</button><button class="layerBtn" onclick="setSystem('Respiratory')">🫁 RESPIRATORY</button><button class="layerBtn" onclick="setSystem('Skeletal')">🦴 SKELETAL</button><button class="layerBtn" onclick="setSystem('Neural')">🧠 NEURAL</button></div>
+<div id="systemInfo" style="background:#02181f;border:1px solid #14b8a6;border-radius:8px;padding:10px;margin-top:10px;font-size:12px">Select a system above to highlight it in Twin.</div></div>
 </div>
 
-<!-- RIGHT -->
 <div>
-<div class="card" data-panel="overview neuro"><h3>05 NEURAL RECONSTRUCTION</h3><p>CORTICAL SURFACE / 3D MODEL</p><img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800" style="height:150px"><div style="display:flex;justify-content:space-between;font-size:11px;margin-top:6px"><button class="layerBtn" onclick="setBrain('AXIAL')">AXIAL</button><button class="layerBtn" onclick="setBrain('SAGITTAL')">SAGITTAL</button><button class="layerBtn" onclick="setBrain('CORONAL')">CORONAL</button><span id="brainView">View: AXIAL</span></div><p>NEURAL MESH • CORTEX • <span id="brainScore">Symmetry 0.94 • Normal range</span></p></div>
+<div class="card" data-panel="overview neuro"><h3>05 NEURAL RECONSTRUCTION</h3><p>CORTICAL SURFACE / 3D MODEL</p><img id="brainImg" src="https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800" style="height:150px"><div style="display:flex;gap:6px;margin-top:6px"><button class="layerBtn" onclick="setBrain('AXIAL')">AXIAL</button><button class="layerBtn" onclick="setBrain('SAGITTAL')">SAGITTAL</button><button class="layerBtn" onclick="setBrain('CORONAL')">CORONAL</button><span id="brainView" style="font-size:12px;padding-top:6px">View: AXIAL</span></div><p>NEURAL MESH • CORTEX • <span id="brainScore">Symmetry 0.94 • Normal range</span></p></div>
 
 <div class="card" data-panel="overview genomics" style="margin-top:12px"><h3>06 GENOMIC SEQUENCE</h3><p>DOUBLE HELIX / MOLECULAR RECONSTRUCTION</p><div style="display:flex;gap:12px"><img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=400" style="width:90px;height:120px"><div style="flex:1;font-size:11px"><div>A <div class="bar"><i style="width:28%"></i></div> 28%</div><div>T <div class="bar"><i style="width:28%"></i></div> 28%</div><div>G <div class="bar"><i style="width:22%"></i></div> 22%</div><div>C <div class="bar"><i style="width:22%"></i></div> 22%</div><p style="font-family:monospace">ATCG AGT CGA ATGC<br>TACG TCAG GCTACG<br>✅ PAIRED STRANDS / MODEL 02</p></div></div></div>
 
@@ -83,23 +86,30 @@ button{cursor:pointer;border:0;padding:10px 12px;border-radius:20px;font-weight:
 <button onclick="getAISummary2()">🤖 Get Gemini AI Summary</button><p id="aiOut2" style="color:#fff"></p></div>
 </div>
 </div>
-<div style="text-align:center;font-size:10px;color:#94a3b8;padding:0 0 14px">MULTIMODAL HEALTH INTERFACE • VECTOR CONCEPT / SYNTHETIC DATA / NOT FOR CLINICAL USE • SCAN COMPLETE // 100% • BRAHMAND GANGA - TEAM REBORN INNOVATORS</div>
+<div style="text-align:center;font-size:10px;color:#94a3b8;padding:0 0 14px">MULTIMODAL HEALTH INTERFACE • SYNTHETIC DATA / NOT FOR CLINICAL USE • SCAN COMPLETE // 100% • BRAHMAND GANGA</div>
 <script>
 const API="https://brahmand-ganga-backend.onrender.com";
-function showTab(id,el){document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));el.classList.add('active');
-document.querySelectorAll('[data-panel]').forEach(c=>{let p=c.getAttribute('data-panel').split(' ');c.style.display=p.includes(id)?'block':'none';});
-document.getElementById('anatomyExtra').style.display=(id==='anatomy')?'block':'none';
-if(id==='overview')document.querySelectorAll('[data-panel]').forEach(c=>c.style.display='block');}
-function setLayer(name,el){document.querySelectorAll('.layerBtn').forEach(b=>b.classList.remove('active'));if(el)el.classList.add('active');document.getElementById('layerInfo').textContent='Layer: '+name+' • Twin synced to your vitals';}
+const LAYERS={
+Surface:{img:"https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800",title:"Layer: Surface",desc:"Skin + Surface anatomy • Temp 36.7°C • Full body outline • Twin synced to your vitals.",hs:["NEURAL MAP<br>CORTICAL VOLUME","CARDIAC MODEL<br>CORONARY OVERLAY","ORGAN ATLAS<br>ABDOMINAL LAYER","JOINT TRACKING<br>SKELETAL LANDMARKS","RESPIRATORY<br>BILATERAL LUNGS","SPINAL AXIS<br>VERTEBRAL CHAIN"]},
+Skeleton:{img:"https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=800",title:"Layer: Skeleton",desc:"Bones + Spine + Joints • 206 bones • Spinal Axis ALIGNED • Rib Cage STRUCTURAL • No fracture detected.",hs:["SKULL<br>CRANIUM","RIB CAGE<br>12 PAIRS","SPINE<br>33 VERTEBRAE","PELVIS<br>HIP JOINT","FEMUR<br>LONGEST BONE","JOINTS<br>KNEES + ELBOWS"]},
+Organs:{img:"https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800",title:"Layer: Organs",desc:"Heart + Lungs + Liver + Kidneys • Cardiac 72 BPM • Lungs CLEAR • Liver normal • Organs synced to vitals.",hs:["BRAIN<br>CORTEX","HEART<br>72 BPM","LUNGS<br>CLEAR","LIVER<br>NORMAL","KIDNEYS<br>BILATERAL","STOMACH<br>ABDOMINAL"]},
+Landmarks:{img:"https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800",title:"Layer: Landmarks",desc:"Tracking landmarks LOCKED • 468 face + body landmarks • Joint tracking ACTIVE • Volume reconstructed.",hs:["FACE<br>468 LANDMARKS","SHOULDER<br>JOINT","ELBOW<br>JOINT","HIP<br>JOINT","KNEE<br>JOINT","ANKLE<br>JOINT"]}
+};
+const SYSTEMS={
+Cardiac:{img:"https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=800",info:"❤️ CARDIAC: Heart 72 BPM • SpO2 98% • Coronary overlay ACTIVE • ECG Lead II locked • No arrhythmia detected."},
+Respiratory:{img:"https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800",info:"🫁 RESPIRATORY: Resp 16/min • Lung Fields CLEAR • Bilateral lungs • SpO2 98% • Breathing pattern normal."},
+Skeletal:{img:"https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=800",info:"🦴 SKELETAL: Spine ALIGNED • Rib Cage STRUCTURAL • Joints tracked • Bone density - normal range for age."},
+Neural:{img:"https://images.unsplash.com/photo-1559757175-5700dde675bc?w=800",info:"🧠 NEURAL: Brain symmetry 0.94 • Cortex normal • Neural mesh reconstructed • No emergency flag • GREEN."}
+};
+function showTab(id,el){document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.querySelectorAll('[data-panel]').forEach(c=>{let p=c.getAttribute('data-panel').split(' ');c.style.display=p.includes(id)?'block':'none';});document.getElementById('anatomyExtra').style.display=(id==='anatomy')?'block':'none';if(id==='overview')document.querySelectorAll('[data-panel]').forEach(c=>c.style.display='block');}
+function setLayer(name){document.querySelectorAll('#btn-Surface,#btn-Skeleton,#btn-Organs,#btn-Landmarks').forEach(b=>b.classList.remove('active'));let btn=document.getElementById('btn-'+name);if(btn)btn.classList.add('active');let L=LAYERS[name];let im=document.getElementById('twinImg');im.style.opacity=0;setTimeout(()=>{im.src=L.img;im.style.opacity=1;},200);document.getElementById('layerInfo').innerHTML='<b>'+L.title+'</b><br>'+L.desc;for(let i=1;i<=6;i++){document.getElementById('hs'+i).innerHTML='<b>'+L.hs[i-1].split('<br>')[0]+'</b><br>'+L.hs[i-1].split('<br>')[1];}}
+function setSystem(name){let S=SYSTEMS[name];let im=document.getElementById('twinImg');im.style.opacity=0;setTimeout(()=>{im.src=S.img;im.style.opacity=1;},200);document.getElementById('systemInfo').textContent=S.info;document.getElementById('layerInfo').innerHTML='<b>System: '+name+'</b><br>'+S.info;}
 function setBrain(v){document.getElementById('brainView').textContent='View: '+v;}
-function updateVitals(){let hr=document.getElementById('inHR').value||72, spo2=document.getElementById('inSpO2').value||98, sl=document.getElementById('inSleep').value||7, st=document.getElementById('inStress').value||4;
-document.getElementById('vHR').textContent=hr;document.getElementById('vSpO2').textContent=spo2;document.getElementById('vResp').textContent=Math.max(10,Math.round(16+(st-4)));document.getElementById('vTemp').textContent=(36.5+Math.random()*0.4).toFixed(1);
-let score=Math.max(60,100-Math.max(0,8-sl)*5-st*3);document.getElementById('screenScore').innerHTML=score.toFixed(0)+'/100<br><span style="font-size:9px">HEALTH SCORE</span>';document.getElementById('coverBar').style.width=score+'%';
-document.getElementById('aiOut').textContent='Updated: HR '+hr+' • SpO2 '+spo2+'% • Health Score '+score.toFixed(0)+'/100 • Twin synced.';
-try{localStorage.setItem('bg_fullbody',JSON.stringify({hr,spo2,sleep:sl,stress:st,time:new Date().toISOString()}));}catch(e){}}
+function setMRI(v,el){document.getElementById('mriView').textContent=v;document.querySelectorAll('[onclick^="setMRI"]').forEach(b=>b.classList.remove('active'));if(el)el.classList.add('active');}
+function updateVitals(){let hr=document.getElementById('inHR').value||72, spo2=document.getElementById('inSpO2').value||98, sl=document.getElementById('inSleep').value||7, st=document.getElementById('inStress').value||4;document.getElementById('vHR').textContent=hr;document.getElementById('vSpO2').textContent=spo2;document.getElementById('vResp').textContent=Math.max(10,Math.round(16+(st-4)));document.getElementById('vTemp').textContent=(36.5+Math.random()*0.4).toFixed(1);let score=Math.max(60,100-Math.max(0,8-sl)*5-st*3);document.getElementById('screenScore').innerHTML=score.toFixed(0)+'/100<br><span style="font-size:9px">HEALTH SCORE</span>';document.getElementById('coverBar').style.width=score+'%';document.getElementById('aiOut').textContent='Updated: HR '+hr+' • SpO2 '+spo2+'% • Health Score '+score.toFixed(0)+'/100 • Twin synced.';}
 function onMRI(e){let f=e.target.files[0];if(!f)return;let im=document.getElementById('mriPrev');im.src=URL.createObjectURL(f);im.style.display='block';}
 function analyzeMRI2(){document.getElementById('mriOut').textContent='Analysis Saved - Quality: Good | Symmetry: Normal range | Flag: GREEN - Screening support, not diagnosis.';document.getElementById('brainScore').textContent='Symmetry 0.94 • GREEN • Analyzed';}
 async function getAISummary2(){let o=document.getElementById('aiOut2');o.textContent='Asking Gemini via Backend...';let body={hr:Number(document.getElementById('inHR').value||72),spo2:Number(document.getElementById('inSpO2').value||98),sleep:Number(document.getElementById('inSleep').value||7),stress:Number(document.getElementById('inStress').value||4),sun:25,smoke:0};try{let r=await fetch(API+'/api/ai-summary',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json());o.textContent=r.summary||'AI summary generated - Keep routine, monitor vitals.';}catch(e){o.textContent='Backend offline - Your vitals are within entered range. Keep routine, sleep 7-8h, light + Earth Therapy.';}}
-let ecgX=0;function drawECG(){let c=document.getElementById('ecg'),ctx=c.getContext('2d');ctx.fillStyle='#02181f';ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle='#2dd4bf';ctx.lineWidth=2;ctx.beginPath();for(let x=0;x<c.width;x++){let y=35+Math.sin(x*0.08)*6;if(x%120<8)y-=28;if(x%120>10&&x%120<18)y+=12;if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}ctx.stroke();ecgX++;}
+function drawECG(){let c=document.getElementById('ecg'),ctx=c.getContext('2d');ctx.fillStyle='#02181f';ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle='#2dd4bf';ctx.lineWidth=2;ctx.beginPath();for(let x=0;x<c.width;x++){let y=35+Math.sin(x*0.08)*6;if(x%120<8)y-=28;if(x%120>10&&x%120<18)y+=12;if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}ctx.stroke();}
 setInterval(drawECG,800);drawECG();
 </script></body></html>
